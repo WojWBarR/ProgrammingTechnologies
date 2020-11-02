@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Library.Logic.Repositories
 {
-    class MockBookRepository
+    public class MockBookRepository
     {
     }
 }
