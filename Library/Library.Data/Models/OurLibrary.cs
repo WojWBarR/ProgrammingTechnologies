@@ -6,5 +6,6 @@ namespace Library.Data.Models
 {
     public class OurLibrary
     {
+        public List<Book> Books { get; set; } = new List<Book>();
     }
 }
