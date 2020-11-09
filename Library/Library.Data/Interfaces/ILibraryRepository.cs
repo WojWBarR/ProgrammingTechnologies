@@ -9,6 +9,6 @@ namespace Library.Data.Interfaces
     {
         List<Book> GetAllAvailableBooks();
         List<Book> GetAllUnavailableBooks();
-        void AddBookWithChangedState(Book book);
+        void UpdateBookState(Book book, bool isAvailable);
     }
 }
