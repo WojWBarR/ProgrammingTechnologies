@@ -16,9 +16,12 @@ namespace Library.Logic.Repositories
         {
             books = new List<Book>
             {
-                new Book {Id = 1, Title = "aaaa", BookType = BookEnum.Adventure, IsAvailable = true},
-                new Book {Id = 2, Title = "bbbb", BookType = BookEnum.Roman, IsAvailable = false},
-                new Book {Id = 3, Title = "cccc", BookType = BookEnum.Document, IsAvailable = false}
+                new Book { Id = 1, Title = "aaaa", BookType = BookEnum.Adventure, IsAvailable = true },
+                new Book { Id = 2, Title = "bbbb", BookType = BookEnum.Roman, IsAvailable = false },
+                new Book { Id = 3, Title = "cccc", BookType = BookEnum.Document, IsAvailable = false },
+                new Book { Id = 4, Title = "dddd", BookType = BookEnum.Adventure, IsAvailable = true },
+                new Book { Id = 5, Title = "eeee", BookType = BookEnum.Roman, IsAvailable = false },
+                new Book { Id = 6, Title = "ffff", BookType = BookEnum.Document, IsAvailable = false }
             };
         }
 
