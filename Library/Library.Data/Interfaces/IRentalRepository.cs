@@ -13,6 +13,5 @@ namespace Library.Data.Interfaces
         void DeleteRental(int id);
         void EditRental(Rental rental);
         void AddRental(Rental rental);
-        void AddUserToRentalHistory(User user);
     }
 }
