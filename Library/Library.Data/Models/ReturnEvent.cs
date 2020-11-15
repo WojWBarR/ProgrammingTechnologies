@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Library.Data.Models
 {
-    class ReturnEvent
+    public class ReturnEvent : BookEvent
     {
+        public DateTime ReturnDate { get; set; }
     }
 }
