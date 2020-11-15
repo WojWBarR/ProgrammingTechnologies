@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Library.Data.Models
 {
-    public class OurLibrary
+    class RentalEvent
     {
-        public List<Book> Books { get; set; } = new List<Book>();
     }
 }
