@@ -19,4 +19,9 @@
     <ProjectReference Include="..\Library.Logic\Library.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UnitTests\RepositoriesTests\" />
+    <Folder Include="UnitTests\ServicesTests\" />
+  </ItemGroup>
+
 </Project>
