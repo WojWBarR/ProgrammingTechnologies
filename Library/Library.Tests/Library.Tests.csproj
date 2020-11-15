@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="UnitTests\RepositoriesTests\" />
+    <Folder Include="UnitTests\RepositoriesTests\" />
     <Folder Include="UnitTests\ServicesTests\" />
   </ItemGroup>
 
