@@ -8,7 +8,7 @@ using Library.Data.Models;
 
 namespace Library.Logic.Repositories
 {
-    public class MockLibraryRepository : ILibraryRepository
+    public class MockLibraryRepository : IBooksCatalogRepository
     {
         private List<Book> books;
 

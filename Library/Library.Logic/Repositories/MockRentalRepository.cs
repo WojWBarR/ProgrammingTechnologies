@@ -7,7 +7,7 @@ using Library.Data.Models;
 
 namespace Library.Logic.Repositories
 {
-    public class MockRentalRepository : IRentalRepository
+    public class MockRentalRepository : IBookEventRepository
     {
         private List<Rental> rentals;
 

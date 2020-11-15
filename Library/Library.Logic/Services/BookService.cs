@@ -9,9 +9,9 @@ namespace Library.Logic.Services
 {
     public class BookService
     {
-        private readonly IBookRepository bookRepository;
+        private readonly IBooksStateRepository bookRepository;
 
-        public BookService(IBookRepository bookRepository)
+        public BookService(IBooksStateRepository bookRepository)
         {
             this.bookRepository = bookRepository;
         }
