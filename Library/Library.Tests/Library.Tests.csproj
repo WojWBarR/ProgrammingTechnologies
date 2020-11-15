@@ -20,11 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-HEAD
     <Folder Include="UnitTests\ServicesTests\" />
-=======
     <Folder Include="UnitTests\RepositoriesTests\" />
->>>>>>> 5cbfc12edda4d561dd126f7ac7142ecb0f6b1078
   </ItemGroup>
 
 </Project>
