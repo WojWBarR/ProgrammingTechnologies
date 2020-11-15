@@ -9,11 +9,11 @@ namespace Library.Tests.UnitTests.RepositoriesTests
 {
     public class RentalRepositoryTests
     {
-        private readonly MockBooksStateRepository rentalRepository;
+        private readonly MockRentalRepository rentalRepository;
 
         public RentalRepositoryTests()
         {
-            rentalRepository = new MockBooksStateRepository();
+            rentalRepository = new MockRentalRepository();
         }
 
         [Fact]
