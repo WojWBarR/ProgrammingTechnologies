@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Library.Data.Interfaces
 {
-    interface IMockDbContext
+    public interface IMockDbContext
     {
 
         Dictionary<int, int> AvailableBooksAmount();
