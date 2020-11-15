@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Library.Data.Interfaces;
 using Library.Data.Models;
 
@@ -9,44 +7,33 @@ namespace Library.Logic.Repositories
 {
     public class MockUserRepository : IUserRepository
     {
-        private List<User> users;
+        private readonly MockDbContext dbContext;
 
-        public MockUserRepository()
+        public MockUserRepository(MockDbContext dbContext)
         {
-            users = new List<User>
-            {
-                new User {Id = 1, Name = "aaa", Surname = "aaaa", AmountOfBooksRented = 1},
-                new User {Id = 2, Name = "bbb", Surname = "bbb", AmountOfBooksRented = 4},
-                new User {Id = 3, Name = "ccc", Surname = "ccc", AmountOfBooksRented = 3},
-                new User {Id = 4, Name = "ddd", Surname = "ddd", AmountOfBooksRented = 1},
-                new User {Id = 5, Name = "eee", Surname = "eee", AmountOfBooksRented = 4},
-                new User {Id = 6, Name = "fff", Surname = "fff", AmountOfBooksRented = 6},
-            };
+            this.dbContext = dbContext;
         }
 
         public List<User> GetAllUsers()
         {
-            return users;
+            return dbContext.Users();
         }
 
         public User GetUserById(int id)
         {
-            return users.FirstOrDefault(i => i.Id.Equals(id));
+            return dbContext.Users().FirstOrDefault(i => i.Id.Equals(id));
         }
 
         public void DeleteUser(int id)
         {
-            User deletedUser = users.FirstOrDefault(i => i.Id.Equals(id));
+            var deletedUser = dbContext.Users().FirstOrDefault(i => i.Id.Equals(id));
 
-            if (deletedUser != null)
-            {
-                users.Remove(deletedUser);
-            }
+            if (deletedUser != null) dbContext.Users().Remove(deletedUser);
         }
 
         public void EditUser(User user)
         {
-            User editedUser = users.FirstOrDefault(b => b.Id.Equals(user.Id));
+            var editedUser = dbContext.Users().FirstOrDefault(b => b.Id.Equals(user.Id));
 
             if (editedUser != null)
             {
@@ -59,7 +46,7 @@ namespace Library.Logic.Repositories
 
         public void AddUser(User user)
         {
-            User addedUser = new User
+            var addedUser = new User
             {
                 Id = user.Id,
                 Name = user.Name,
@@ -67,7 +54,7 @@ namespace Library.Logic.Repositories
                 AmountOfBooksRented = user.AmountOfBooksRented
             };
 
-            users.Add(addedUser);
+            dbContext.Users().Add(addedUser);
         }
     }
 }
