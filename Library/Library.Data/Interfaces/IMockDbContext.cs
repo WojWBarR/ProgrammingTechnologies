@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Library.Data.Models;
 using System.Text;
 
 namespace Library.Data.Interfaces
