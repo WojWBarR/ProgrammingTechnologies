@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Library.Data.Interfaces;
-using Library.Data.Models;
+using Library.Data;
 
-namespace Library.Logic.Services
+namespace Library.Logic
 {
     public class BooksStateService
     {
@@ -13,7 +12,7 @@ namespace Library.Logic.Services
             this.booksStateRepository = booksStateRepository;
         }
 
-        public List<BooksCatalog.Book> GetAllAvailableBooks()
+        public List<Book> GetAllAvailableBooks()
         {
             var availableBooks = booksStateRepository.GetAllAvailableBooks();
 

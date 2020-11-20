@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using Library.Data.Interfaces;
-using Library.Data.Models;
+using Library.Data;
 
-namespace Library.Logic.Services
+namespace Library.Logic
 {
     public class UserService
     {

@@ -1,9 +1,7 @@
 ﻿using System.Collections.Generic;
 using Library.Data;
-using Library.Data.Interfaces;
-using Library.Data.Models;
 
-namespace Library.Logic.Services
+namespace Library.Logic
 {
     public class BooksCatalogService
     {
@@ -14,7 +12,7 @@ namespace Library.Logic.Services
             this.booksCatalogRepository = booksCatalogRepository;
         }
 
-        public void AddBook(BooksCatalog.Book book)
+        public void AddBook(Book book)
         {
             booksCatalogRepository.AddBook(book);
         }
@@ -24,19 +22,19 @@ namespace Library.Logic.Services
             booksCatalogRepository.DeleteBook(id);
         }
 
-        public void EditBook(BooksCatalog.Book book)
+        public void EditBook(Book book)
         {
             booksCatalogRepository.EditBook(book);
         }
 
-        public List<BooksCatalog.Book> GetAllBooks()
+        public List<Book> GetAllBooks()
         {
             var books = booksCatalogRepository.GetAllBooks();
 
             return books.Count == 0 ? null : books;
         }
 
-        public BooksCatalog.Book GetBook(int id)
+        public Book GetBook(int id)
         {
             var bookById = booksCatalogRepository.GetBookById(id);
 
@@ -45,7 +43,7 @@ namespace Library.Logic.Services
             return bookById;
         }
 
-        public BooksCatalog.Book GetBook(BookEnum bookType)
+        public Book GetBook(BookEnum bookType)
         {
             var bookByType = booksCatalogRepository.GetBookByType(bookType);
 

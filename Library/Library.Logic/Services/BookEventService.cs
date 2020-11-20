@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Library.Data.Interfaces;
-using Library.Data.Models;
+using Library.Data;
 
-namespace Library.Logic.Services
+namespace Library.Logic
 {
     public class BookEventService
     {
-        private readonly BooksState availableLibraryBooks = new BooksState();
+        private readonly BooksState availableLibraryBook = new BooksState();
         private readonly IBookEventRepository bookEventRepository;
-        private readonly BooksCatalog booksCatalog;
         private readonly IBooksCatalogRepository booksCatalogRepository;
         private readonly IBooksStateRepository booksStateRepository;
         private readonly IUserRepository userRepository;
@@ -38,12 +36,12 @@ namespace Library.Logic.Services
             if (availableAmountOfParticularBook <= 0) return null;
 
             var rentalUser = userRepository.GetUserById(userId);
-            availableLibraryBooks.AvailableBooks = new BooksCatalog
+            availableLibraryBook.AllBooks = new BooksCatalog
             {
                 Books = booksStateRepository.GetAllAvailableBooks()
             };
 
-            var rental = InitializeEvent(rentalDate, rentalUser, availableLibraryBooks, bookId, out var book);
+            var rental = InitializeEvent(rentalDate, rentalUser, availableLibraryBook, bookId, out var book);
 
             if (ValidateData(rentalUser, book, rentalDate))
             {
@@ -74,7 +72,7 @@ namespace Library.Logic.Services
                 var returnEvent = new ReturnEvent
                 {
                     RentalUser = rentalUser,
-                    ReturnDate = returnDate
+                    EventDate = returnDate
                 };
 
                 bookEventRepository.AddReturnEvent(returnEvent);
@@ -85,16 +83,16 @@ namespace Library.Logic.Services
             return null;
         }
 
-        private RentalEvent InitializeEvent(DateTime rentalDate, User rentalUser, BooksState booksState, int bookId,
-            out BooksCatalog.Book book)
+        private RentalEvent InitializeEvent(DateTime rentalDate, User rentalUser, BooksState bookState, int bookId,
+            out Book book)
         {
-            book = booksState.AvailableBooks.Books.FirstOrDefault(i => i.Id.Equals(bookId));
+            book = bookState.AllBooks.Books.FirstOrDefault(i => i.Id.Equals(bookId));
 
             return new RentalEvent
             {
-                RentalDate = rentalDate,
+                EventDate = rentalDate,
                 RentalUser = rentalUser,
-                BooksInLibrary = booksState
+                BookInLibrary = bookState
             };
         }
 
@@ -111,7 +109,7 @@ namespace Library.Logic.Services
                 rentalUser.AmountOfBooksRented--;
         }
 
-        private bool ValidateData(User user, BooksCatalog.Book book, DateTime date)
+        private bool ValidateData(User user, Book book, DateTime date)
         {
             if (user.Equals(null) || book.Equals(null) || date.Equals(null)) return false;
 
