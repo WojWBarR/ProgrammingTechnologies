@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Library.Data.Models;
+﻿using System.Collections.Generic;
 
-namespace Library.Data.Interfaces
+namespace Library.Data
 {
     public interface IBooksStateRepository
     {
-        List<BooksCatalog.Book> GetAllAvailableBooks();
+        List<Book> GetAllAvailableBooks();
         int GetAmountOfAvailableBooksById(int id);
         int UpdateBooksAmount(int bookId, int actualBooksAmount);
     }

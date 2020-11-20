@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Library.Data.Models;
+﻿using System.Collections.Generic;
 
-namespace Library.Data.Interfaces
+namespace Library.Data
 {
     public interface IUserRepository
     {

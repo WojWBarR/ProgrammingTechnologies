@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Library.Data.Interfaces
+﻿namespace Library.Data
 {
     public interface IDataGenerator
     {
+        DataContext GenerateData();
     }
 }

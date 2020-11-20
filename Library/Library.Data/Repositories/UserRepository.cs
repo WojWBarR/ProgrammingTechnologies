@@ -1,39 +1,37 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Library.Data.Interfaces;
-using Library.Data.Models;
 
-namespace Library.Logic.Repositories
+namespace Library.Data
 {
-    public class MockUserRepository : IUserRepository
+    public class UserRepository : IUserRepository
     {
-        private readonly DataContext dbContext;
+        private readonly DataContext _dataContext;
 
-        public MockUserRepository(DataContext dbContext)
+        public UserRepository(DataContext dataContext)
         {
-            this.dbContext = dbContext;
+            _dataContext = dataContext;
         }
 
         public List<User> GetAllUsers()
         {
-            return dbContext.Users();
+            return _dataContext.Users;
         }
 
         public User GetUserById(int id)
         {
-            return dbContext.Users().FirstOrDefault(i => i.Id.Equals(id));
+            return _dataContext.Users.FirstOrDefault(i => i.Id.Equals(id));
         }
 
         public void DeleteUser(int id)
         {
-            var deletedUser = dbContext.Users().FirstOrDefault(i => i.Id.Equals(id));
+            var deletedUser = _dataContext.Users.FirstOrDefault(i => i.Id.Equals(id));
 
-            if (deletedUser != null) dbContext.Users().Remove(deletedUser);
+            if (deletedUser != null) _dataContext.Users.Remove(deletedUser);
         }
 
         public void EditUser(User user)
         {
-            var editedUser = dbContext.Users().FirstOrDefault(b => b.Id.Equals(user.Id));
+            var editedUser = _dataContext.Users.FirstOrDefault(b => b.Id.Equals(user.Id));
 
             if (editedUser != null)
             {
@@ -54,7 +52,7 @@ namespace Library.Logic.Repositories
                 AmountOfBooksRented = user.AmountOfBooksRented
             };
 
-            dbContext.Users().Add(addedUser);
+            _dataContext.Users.Add(addedUser);
         }
     }
 }

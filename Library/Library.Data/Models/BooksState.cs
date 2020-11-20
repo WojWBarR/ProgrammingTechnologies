@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
-namespace Library.Data.Models
+namespace Library.Data
 {
     public class BooksState
     {
-        public Dictionary<int, int> AvailableBooksAmount { get; set; } = new Dictionary<int, int>();
-        public BooksCatalog AvailableBooks { get; set; }
+        public BooksCatalog AllBooks { get; set; }
+        public Dictionary<Book, int> AvailableBooksAmount { get; set; } = new Dictionary<Book, int>();
     }
 }

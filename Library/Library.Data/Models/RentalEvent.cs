@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Library.Data.Models
+namespace Library.Data
 {
     public class RentalEvent : BookEvent
     {
-        public BooksState BooksInLibrary { get; set; }
-        public DateTime RentalDate { get; set; }
+        public override DateTime EventDate { get; set; }
     }
 }

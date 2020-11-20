@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Library.Data.Models;
 
-namespace Library.Data.Interfaces
+namespace Library.Data
 {
     public interface IBookEventRepository
     {

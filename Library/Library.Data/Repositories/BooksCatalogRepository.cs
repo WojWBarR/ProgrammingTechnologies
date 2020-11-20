@@ -1,63 +1,62 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Library.Data;
-using Library.Data.Interfaces;
-using Library.Data.Models;
 
-namespace Library.Logic.Repositories
+namespace Library.Data
 {
-    public class MockBooksCatalogRepository : IBooksCatalogRepository
+    public class BooksCatalogRepository : IBooksCatalogRepository
     {
-        private readonly DataContext dbContext;
+        private readonly DataContext _dataContext;
 
-        public MockBooksCatalogRepository(DataContext dbContext)
+        public BooksCatalogRepository(DataContext dataContext)
         {
-            this.dbContext = dbContext;
+            _dataContext = dataContext;
         }
 
-        public List<BooksCatalog.Book> GetAllBooks()
+        public List<Book> GetAllBooks()
         {
-            return dbContext.BooksCatalog().Books;
+            return _dataContext.BookCatalog.Books;
         }
 
-        public BooksCatalog.Book GetBookById(int id)
+        public Book GetBookById(int id)
         {
-            return dbContext.BooksCatalog().Books.FirstOrDefault(i => i.Id.Equals(id));
+            return _dataContext.BookCatalog.Books.FirstOrDefault(i => i.Id.Equals(id));
         }
 
-        public BooksCatalog.Book GetBookByType(BookEnum bookType)
+        public Book GetBookByType(BookEnum bookType)
         {
-            return dbContext.BooksCatalog().Books.FirstOrDefault(t => t.BookType.Equals(bookType));
+            return _dataContext.BookCatalog.Books.FirstOrDefault(t => t.BookGenre.Equals(bookType));
         }
 
         public void DeleteBook(int id)
         {
-            var deletedBook = dbContext.BooksCatalog().Books.FirstOrDefault(i => i.Id.Equals(id));
+            var deletedBook = _dataContext.BookCatalog.Books.FirstOrDefault(i => i.Id.Equals(id));
 
-            if (deletedBook != null) dbContext.BooksCatalog().Books.Remove(deletedBook);
+            if (deletedBook != null) _dataContext.BookCatalog.Books.Remove(deletedBook);
         }
 
-        public void EditBook(BooksCatalog.Book book)
+        public void EditBook(Book book)
         {
-            var editedBook = dbContext.BooksCatalog().Books.FirstOrDefault(b => b.Id.Equals(book.Id));
+            var editedBook = _dataContext.BookCatalog.Books.FirstOrDefault(b => b.Id.Equals(book.Id));
 
             if (editedBook != null)
             {
                 editedBook.Title = book.Title;
-                editedBook.BookType = book.BookType;
+                editedBook.BookGenre = book.BookGenre;
+                editedBook.Author = book.Author;
             }
         }
 
-        public void AddBook(BooksCatalog.Book book)
+        public void AddBook(Book book)
         {
-            var addedBook = new BooksCatalog.Book
+            var addedBook = new Book
             {
                 Id = book.Id,
                 Title = book.Title,
-                BookType = book.BookType
+                BookGenre = book.BookGenre,
+                Author = book.Author
             };
 
-            dbContext.BooksCatalog().Books.Add(addedBook);
+            _dataContext.BookCatalog.Books.Add(addedBook);
         }
     }
 }

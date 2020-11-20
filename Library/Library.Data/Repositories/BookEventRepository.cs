@@ -1,44 +1,42 @@
 ﻿using System.Collections.Generic;
-using Library.Data.Interfaces;
-using Library.Data.Models;
 
-namespace Library.Logic.Repositories
+namespace Library.Data
 {
-    public class MockBookEventRepository : IBookEventRepository
+    public class BookEventRepository : IBookEventRepository
     {
-        private readonly DataContext dbContext;
+        private readonly DataContext _dataContext;
 
-        public MockBookEventRepository(DataContext dbContext)
+        public BookEventRepository(DataContext dataContext)
         {
-            this.dbContext = dbContext;
+            _dataContext = dataContext;
         }
 
         public List<BookEvent> GetAllBookEvents()
         {
-            return dbContext.BookEvents();
+            return _dataContext.BookEvents;
         }
 
         public void AddRentalEvent(RentalEvent rentalEvent)
         {
             var addedRentalEvent = new RentalEvent
             {
-                BooksInLibrary = rentalEvent.BooksInLibrary,
-                RentalDate = rentalEvent.RentalDate,
+                BookInLibrary = rentalEvent.BookInLibrary,
+                EventDate = rentalEvent.EventDate,
                 RentalUser = rentalEvent.RentalUser
             };
 
-            dbContext.BookEvents().Add(addedRentalEvent);
+            _dataContext.BookEvents.Add(addedRentalEvent);
         }
 
         public void AddReturnEvent(ReturnEvent returnEvent)
         {
             var addedReturnEvent = new ReturnEvent
             {
-                ReturnDate = returnEvent.ReturnDate,
+                EventDate = returnEvent.EventDate,
                 RentalUser = returnEvent.RentalUser
             };
 
-            dbContext.BookEvents().Add(addedReturnEvent);
+            _dataContext.BookEvents.Add(addedReturnEvent);
         }
     }
 }
