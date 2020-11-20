@@ -7,9 +7,9 @@ namespace Library.Logic.Repositories
 {
     public class MockBooksStateRepository : IBooksStateRepository
     {
-        private readonly MockDbContext dbContext;
+        private readonly DataContext dbContext;
 
-        public MockBooksStateRepository(MockDbContext dbContext)
+        public MockBooksStateRepository(DataContext dbContext)
         {
             this.dbContext = dbContext;
         }

@@ -9,12 +9,12 @@ namespace Library.Tests.UnitTests.RepositoriesTests
     {
         public BookEventRepositoryTests()
         {
-            dbContext = new MockDbContext();
-            bookEventRepository = new MockBookEventRepository(dbContext);
+            dbContext = new DataContext();
+            bookEventRepository = new BookEventRepository(dbContext);
         }
 
-        private readonly MockBookEventRepository bookEventRepository;
-        private readonly MockDbContext dbContext;
+        private readonly BookEventRepository bookEventRepository;
+        private readonly DataContext dbContext;
 
         [Fact]
         public void ShouldAddRentalEvent()

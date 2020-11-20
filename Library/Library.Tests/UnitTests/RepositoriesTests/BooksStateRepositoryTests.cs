@@ -8,12 +8,12 @@ namespace Library.Tests.UnitTests.RepositoriesTests
     {
         public BooksStateRepositoryTests()
         {
-            dbContext = new MockDbContext();
-            booksStateRepository = new MockBooksStateRepository(dbContext);
+            dbContext = new DataContext();
+            booksStateRepository = new BooksStateRepository(dbContext);
         }
 
-        private readonly MockBooksStateRepository booksStateRepository;
-        private readonly MockDbContext dbContext;
+        private readonly BooksStateRepository booksStateRepository;
+        private readonly DataContext dbContext;
 
         [Theory]
         [InlineData(1)]

@@ -8,9 +8,9 @@ namespace Library.Logic.Repositories
 {
     public class MockBooksCatalogRepository : IBooksCatalogRepository
     {
-        private readonly MockDbContext dbContext;
+        private readonly DataContext dbContext;
 
-        public MockBooksCatalogRepository(MockDbContext dbContext)
+        public MockBooksCatalogRepository(DataContext dbContext)
         {
             this.dbContext = dbContext;
         }
