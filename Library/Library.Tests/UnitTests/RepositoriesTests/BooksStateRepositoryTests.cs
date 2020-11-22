@@ -1,8 +1,8 @@
 ﻿using Library.Logic;
-using Library.Logic.Repositories;
+using Library.Data;
 using Xunit;
 
-namespace Library.Tests.UnitTests.RepositoriesTests
+namespace Library.DataTests
 {
     public class BooksStateRepositoryTests
     {

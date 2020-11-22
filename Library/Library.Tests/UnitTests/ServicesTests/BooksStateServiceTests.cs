@@ -14,16 +14,16 @@ namespace Library.Tests.UnitTests.ServicesTests
         {
             libraryRepositoryMock = new Mock<IBooksStateRepository>();
             booksStateService = new BooksStateService(libraryRepositoryMock.Object);
-            booksState.AvailableBooks = new BooksCatalog
+            booksState.AvailableBooks = new BookCatalog
             {
-                Books = new List<BooksCatalog.Book>
+                Books = new List<BookCatalog.Book>
                 {
-                    new BooksCatalog.Book {Id = 1, Title = "aaaa", BookType = BookEnum.Adventure},
-                    new BooksCatalog.Book {Id = 2, Title = "bbbb", BookType = BookEnum.Roman},
-                    new BooksCatalog.Book {Id = 3, Title = "cccc", BookType = BookEnum.Document},
-                    new BooksCatalog.Book {Id = 4, Title = "dddd", BookType = BookEnum.Historic},
-                    new BooksCatalog.Book {Id = 5, Title = "eeee", BookType = BookEnum.SciFi},
-                    new BooksCatalog.Book {Id = 6, Title = "ffff", BookType = BookEnum.Document}
+                    new BookCatalog.Book {Id = 1, Title = "aaaa", BookType = BookEnum.Adventure},
+                    new BookCatalog.Book {Id = 2, Title = "bbbb", BookType = BookEnum.Roman},
+                    new BookCatalog.Book {Id = 3, Title = "cccc", BookType = BookEnum.Document},
+                    new BookCatalog.Book {Id = 4, Title = "dddd", BookType = BookEnum.Historic},
+                    new BookCatalog.Book {Id = 5, Title = "eeee", BookType = BookEnum.SciFi},
+                    new BookCatalog.Book {Id = 6, Title = "ffff", BookType = BookEnum.Document}
                 }
             };
         }

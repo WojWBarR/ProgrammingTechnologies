@@ -1,21 +1,20 @@
 ﻿using System.Collections.Generic;
-using Library.Data.Models;
-using Library.Logic;
-using Library.Logic.Repositories;
+using Library.Data;
 using Xunit;
 
-namespace Library.Tests.UnitTests.RepositoriesTests
+namespace Library.DataTests
 {
     public class UserRepositoryTests
     {
         public UserRepositoryTests()
         {
-            dbContext = new DataContext();
-            userRepository = new UserRepository(dbContext);
+            var dataGenerator = new DataGenerator();
+            dataContext = dataGenerator.GenerateData();
+            userRepository = new UserRepository(dataContext);
         }
 
         private readonly UserRepository userRepository;
-        private readonly DataContext dbContext;
+        private readonly DataContext dataContext;
 
         [Theory]
         [InlineData(1)]
@@ -63,8 +62,10 @@ namespace Library.Tests.UnitTests.RepositoriesTests
 
             //Act
             userRepository.AddUser(newUser);
+            var returnedUsers = userRepository.GetAllUsers();
 
             //Assert
+            Assert.True(returnedUsers.Count.Equals(7));
         }
 
         [Fact]
@@ -74,8 +75,10 @@ namespace Library.Tests.UnitTests.RepositoriesTests
 
             //Act
             userRepository.DeleteUser(1);
+            var returnedUsers = userRepository.GetAllUsers();
 
             //Assert
+            Assert.True(returnedUsers.Count.Equals(5));
         }
 
         [Fact]
@@ -92,8 +95,13 @@ namespace Library.Tests.UnitTests.RepositoriesTests
 
             //Act
             userRepository.EditUser(expectedUser);
+            var returnedUser = userRepository.GetUserById(1);
 
             //Assert
+            Assert.Equal(expectedUser.Id, returnedUser.Id);
+            Assert.Equal(expectedUser.Name, returnedUser.Name);
+            Assert.Equal(expectedUser.Surname, returnedUser.Surname);
+            Assert.Equal(expectedUser.AmountOfBooksRented, returnedUser.AmountOfBooksRented);
         }
 
         [Fact]

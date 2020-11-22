@@ -1,20 +1,19 @@
-﻿using Library.Data.Models;
-using Library.Logic;
-using Library.Logic.Repositories;
+﻿using Library.Data;
 using Xunit;
 
-namespace Library.Tests.UnitTests.RepositoriesTests
+namespace Library.DataTests
 {
     public class BookEventRepositoryTests
     {
         public BookEventRepositoryTests()
         {
-            dbContext = new DataContext();
-            bookEventRepository = new BookEventRepository(dbContext);
+            var dataGenerator = new DataGenerator();
+            dataContext = dataGenerator.GenerateData();
+            bookEventRepository = new BookEventRepository(dataContext);
         }
 
         private readonly BookEventRepository bookEventRepository;
-        private readonly DataContext dbContext;
+        private readonly DataContext dataContext;
 
         [Fact]
         public void ShouldAddRentalEvent()
@@ -24,8 +23,10 @@ namespace Library.Tests.UnitTests.RepositoriesTests
 
             //Act
             bookEventRepository.AddRentalEvent(rentalEvent);
+            var returnedBookEvents = bookEventRepository.GetAllBookEvents();
 
             //Assert
+            Assert.True(returnedBookEvents.Count.Equals(6));
         }
 
         [Fact]
@@ -36,8 +37,10 @@ namespace Library.Tests.UnitTests.RepositoriesTests
 
             //Act
             bookEventRepository.AddReturnEvent(returnEvent);
+            var returnedBookEvents = bookEventRepository.GetAllBookEvents();
 
             //Assert
+            Assert.True(returnedBookEvents.Count.Equals(6));
         }
 
         [Fact]
@@ -49,7 +52,7 @@ namespace Library.Tests.UnitTests.RepositoriesTests
             var returnedRentals = bookEventRepository.GetAllBookEvents();
 
             //Assert
-            Assert.True(returnedRentals.Count.Equals(3));
+            Assert.True(returnedRentals.Count.Equals(5));
         }
     }
 }
