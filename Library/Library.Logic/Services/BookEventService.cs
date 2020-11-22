@@ -36,7 +36,7 @@ namespace Library.Logic
             if (availableAmountOfParticularBook <= 0) return null;
 
             var rentalUser = userRepository.GetUserById(userId);
-            availableLibraryBook.AllBooks = new BooksCatalog
+            availableLibraryBook.AllBooks = new BookCatalog
             {
                 Books = booksStateRepository.GetAllAvailableBooks()
             };

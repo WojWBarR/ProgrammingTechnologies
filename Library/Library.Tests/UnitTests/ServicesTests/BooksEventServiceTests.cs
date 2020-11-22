@@ -21,9 +21,9 @@ namespace Library.LogicTests
 
             bookEvents = new List<BookEvent>
             {
-                new RentalEvent {RentalDate = default, RentalUser = default, BookInLibrary = default},
-                new RentalEvent {RentalDate = default, RentalUser = default, BookInLibrary = default},
-                new ReturnEvent {RentalDate = default, RentalUser = default}
+                new RentalEvent {EventDate = default, RentalUser = default, BookInLibrary = default},
+                new RentalEvent {EventDate = default, RentalUser = default, BookInLibrary = default},
+                new ReturnEvent {EventDate = default, RentalUser = default}
             };
 
             _bookState.AllBooks = new BookCatalog
@@ -84,7 +84,7 @@ namespace Library.LogicTests
             {
                 RentalUser = rentalUser,
                 BookInLibrary = _bookState,
-                RentalDate = rentDate
+                EventDate = rentDate
             };
 
             userRepositoryMock.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(rentalUser);
@@ -123,7 +123,7 @@ namespace Library.LogicTests
             var expectedReturnEvent = new ReturnEvent
             {
                 RentalUser = returnedUser,
-                RentalDate = returnDate
+                EventDate = returnDate
             };
 
             userRepositoryMock.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(returnedUser);

@@ -54,11 +54,11 @@ namespace Library.DataTests
 
             dataContext.BookState = bookState;
 
-            var rentalEvent1 = new RentalEvent { RentalDate = default, RentalUser = user1, BookInLibrary = bookState };
-            var rentalEvent2 = new RentalEvent { RentalDate = default, RentalUser = user2, BookInLibrary = bookState };
-            var rentalEvent3 = new RentalEvent { RentalDate = default, RentalUser = user3, BookInLibrary = bookState };
-            var returnEvent1 = new ReturnEvent { RentalDate = default, RentalUser = user2 };
-            var returnEvent2 = new ReturnEvent { RentalDate = default, RentalUser = user3 };
+            var rentalEvent1 = new RentalEvent { EventDate = default, RentalUser = user1, BookInLibrary = bookState };
+            var rentalEvent2 = new RentalEvent { EventDate = default, RentalUser = user2, BookInLibrary = bookState };
+            var rentalEvent3 = new RentalEvent { EventDate = default, RentalUser = user3, BookInLibrary = bookState };
+            var returnEvent1 = new ReturnEvent { EventDate = default, RentalUser = user2 };
+            var returnEvent2 = new ReturnEvent { EventDate = default, RentalUser = user3 };
 
             dataContext.BookEvents.Add(rentalEvent1);
             dataContext.BookEvents.Add(rentalEvent2);

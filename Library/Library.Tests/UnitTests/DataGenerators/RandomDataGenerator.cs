@@ -66,7 +66,7 @@ namespace Library.DataTests
             var rentalEvent = new RentalEvent
             {
                 BookInLibrary = CreateRandomBookState(),
-                RentalDate = default,
+                EventDate = default,
                 RentalUser = CreateRandomUser()
             };
 
@@ -78,7 +78,7 @@ namespace Library.DataTests
             var returnEvent = new ReturnEvent
             {
                 RentalUser = CreateRandomUser(),
-                RentalDate = default
+                EventDate = default
             };
 
             return returnEvent;

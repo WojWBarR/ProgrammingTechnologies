@@ -2,7 +2,7 @@
 
 namespace Library.Data
 {
-    public class BooksCatalog
+    public class BookCatalog
     {
         public List<Book> Books { get; set; } = new List<Book>();
     }

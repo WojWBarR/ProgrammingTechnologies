@@ -4,7 +4,7 @@ namespace Library.Data
 {
     public class BookState
     {
-        public BooksCatalog AllBooks { get; set; }
+        public BookCatalog AllBooks { get; set; }
         public Dictionary<Book, int> AvailableBooksAmount { get; set; } = new Dictionary<Book, int>();
     }
 }
