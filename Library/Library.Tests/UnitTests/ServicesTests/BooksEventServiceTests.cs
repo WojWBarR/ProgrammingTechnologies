@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using Library.Data;
-using Library.Data.Interfaces;
-using Library.Data.Models;
-using Library.Logic.Services;
+using Library.Logic;
 using Moq;
 using Xunit;
 
-namespace Library.Tests.UnitTests.ServicesTests
+namespace Library.LogicTests
 {
-    public class BookEventServiceTests
+    public class BooksEventServiceTests
     {
-        public BookEventServiceTests()
+        public BooksEventServiceTests()
         {
             bookEventRepositoryMock = new Mock<IBookEventRepository>();
             bookStateRepositoryMock = new Mock<IBooksStateRepository>();
@@ -23,21 +21,21 @@ namespace Library.Tests.UnitTests.ServicesTests
 
             bookEvents = new List<BookEvent>
             {
-                new RentalEvent {RentalDate = default, RentalUser = default, BooksInLibrary = default},
-                new RentalEvent {RentalDate = default, RentalUser = default, BooksInLibrary = default},
-                new ReturnEvent {ReturnDate = default, RentalUser = default}
+                new RentalEvent {RentalDate = default, RentalUser = default, BookInLibrary = default},
+                new RentalEvent {RentalDate = default, RentalUser = default, BookInLibrary = default},
+                new ReturnEvent {RentalDate = default, RentalUser = default}
             };
 
-            booksState.AvailableBooks = new BooksCatalog
+            _bookState.AllBooks = new BookCatalog
             {
-                Books = new List<BooksCatalog.Book>
+                Books = new List<Book>
                 {
-                    new BooksCatalog.Book {Id = 1, Title = "aaaa", BookType = BookEnum.Adventure},
-                    new BooksCatalog.Book {Id = 2, Title = "bbbb", BookType = BookEnum.Roman},
-                    new BooksCatalog.Book {Id = 3, Title = "cccc", BookType = BookEnum.Document},
-                    new BooksCatalog.Book {Id = 4, Title = "dddd", BookType = BookEnum.Adventure},
-                    new BooksCatalog.Book {Id = 5, Title = "eeee", BookType = BookEnum.Roman},
-                    new BooksCatalog.Book {Id = 6, Title = "ffff", BookType = BookEnum.Document}
+                    new Book {Id = 1, Title = "aaaa", BookGenre = BookEnum.Adventure, Author = "Aaaa"},
+                    new Book {Id = 2, Title = "bbbb", BookGenre = BookEnum.Roman, Author = "Bbbb"},
+                    new Book {Id = 3, Title = "cccc", BookGenre = BookEnum.Document, Author = "Cccc"},
+                    new Book {Id = 4, Title = "dddd", BookGenre = BookEnum.Adventure, Author = "Aaaa"},
+                    new Book {Id = 5, Title = "eeee", BookGenre = BookEnum.Roman, Author = "Bbbb"},
+                    new Book {Id = 6, Title = "ffff", BookGenre = BookEnum.Document, Author = "Cccc"}
                 }
             };
 
@@ -61,7 +59,7 @@ namespace Library.Tests.UnitTests.ServicesTests
 
             bookStateRepositoryMock.Setup(x => x.GetAmountOfAvailableBooksById(It.IsAny<int>()))
                 .Returns(availableAmountOfParticularBook);
-            bookStateRepositoryMock.Setup(x => x.GetAllAvailableBooks()).Returns(booksState.AvailableBooks.Books);
+            bookStateRepositoryMock.Setup(x => x.GetAllAvailableBooks()).Returns(_bookState.AllBooks.Books);
         }
 
         private readonly Mock<IBookEventRepository> bookEventRepositoryMock;
@@ -72,7 +70,7 @@ namespace Library.Tests.UnitTests.ServicesTests
         private readonly List<BookEvent> bookEvents;
         private readonly User rentalUser;
         private readonly User returnedUser;
-        private readonly BookState booksState = new BookState();
+        private readonly BookState _bookState = new BookState();
         private readonly Random random = new Random();
         private int availableAmountOfParticularBook;
 
@@ -85,7 +83,7 @@ namespace Library.Tests.UnitTests.ServicesTests
             var expectedRentalEvent = new RentalEvent
             {
                 RentalUser = rentalUser,
-                BooksInLibrary = booksState,
+                BookInLibrary = _bookState,
                 RentalDate = rentDate
             };
 
@@ -95,7 +93,7 @@ namespace Library.Tests.UnitTests.ServicesTests
 
             //Act
             var resultedRentalEvent =
-                bookEventService.RentBook(rentalUser.Id, booksState.AvailableBooks.Books[0].Id, rentDate);
+                bookEventService.RentBook(rentalUser.Id, _bookState.AllBooks.Books[0].Id, rentDate);
 
             //Assert
             Assert.Equal(1, rentalUser.AmountOfBooksRented);
@@ -125,18 +123,18 @@ namespace Library.Tests.UnitTests.ServicesTests
             var expectedReturnEvent = new ReturnEvent
             {
                 RentalUser = returnedUser,
-                ReturnDate = returnDate
+                RentalDate = returnDate
             };
 
             userRepositoryMock.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(returnedUser);
             bookStateRepositoryMock.Setup(x => x.UpdateBooksAmount(It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(++availableAmountOfParticularBook);
             booksCatalogRepositoryMock.Setup(x => x.GetBookById(It.IsAny<int>()))
-                .Returns(booksState.AvailableBooks.Books[0]);
+                .Returns(_bookState.AllBooks.Books[0]);
 
             //Act
             var resultedRentedEvent =
-                bookEventService.ReturnBook(returnedUser.Id, booksState.AvailableBooks.Books[0].Id, returnDate);
+                bookEventService.ReturnBook(returnedUser.Id, _bookState.AllBooks.Books[0].Id, returnDate);
 
             //Assert
             Assert.Equal(12, returnedUser.AmountOfBooksRented);
