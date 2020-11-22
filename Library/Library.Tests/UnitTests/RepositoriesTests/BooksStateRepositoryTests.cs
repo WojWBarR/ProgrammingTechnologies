@@ -1,5 +1,4 @@
-﻿using Library.Logic;
-using Library.Data;
+﻿using Library.Data;
 using Xunit;
 
 namespace Library.DataTests
@@ -8,12 +7,13 @@ namespace Library.DataTests
     {
         public BooksStateRepositoryTests()
         {
-            dbContext = new DataContext();
-            booksStateRepository = new BooksStateRepository(dbContext);
+            var dataGenerator = new DataGenerator();
+            dataContext = dataGenerator.GenerateData();
+            booksStateRepository = new BooksStateRepository(dataContext);
         }
 
         private readonly BooksStateRepository booksStateRepository;
-        private readonly DataContext dbContext;
+        private readonly DataContext dataContext;
 
         [Theory]
         [InlineData(1)]
