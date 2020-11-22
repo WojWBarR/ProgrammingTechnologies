@@ -6,7 +6,7 @@ namespace Library.Data
     {
         public BooksCatalog BookCatalog = new BooksCatalog();
         public List<BookEvent> BookEvents = new List<BookEvent>();
-        public BooksState BookState = new BooksState();
+        public BookState BookState = new BookState();
         public List<User> Users = new List<User>();
     }
 }

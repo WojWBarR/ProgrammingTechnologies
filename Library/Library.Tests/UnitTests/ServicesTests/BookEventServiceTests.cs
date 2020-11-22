@@ -72,7 +72,7 @@ namespace Library.Tests.UnitTests.ServicesTests
         private readonly List<BookEvent> bookEvents;
         private readonly User rentalUser;
         private readonly User returnedUser;
-        private readonly BooksState booksState = new BooksState();
+        private readonly BookState booksState = new BookState();
         private readonly Random random = new Random();
         private int availableAmountOfParticularBook;
 

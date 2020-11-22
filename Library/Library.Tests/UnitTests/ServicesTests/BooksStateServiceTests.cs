@@ -30,7 +30,7 @@ namespace Library.Tests.UnitTests.ServicesTests
 
         private readonly Mock<IBooksStateRepository> libraryRepositoryMock;
         private readonly BooksStateService booksStateService;
-        private readonly BooksState booksState = new BooksState();
+        private readonly BookState booksState = new BookState();
 
         [Theory]
         [InlineData(1)]

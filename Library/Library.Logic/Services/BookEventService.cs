@@ -7,7 +7,7 @@ namespace Library.Logic
 {
     public class BookEventService
     {
-        private readonly BooksState availableLibraryBook = new BooksState();
+        private readonly BookState availableLibraryBook = new BookState();
         private readonly IBookEventRepository bookEventRepository;
         private readonly IBooksCatalogRepository booksCatalogRepository;
         private readonly IBooksStateRepository booksStateRepository;
@@ -83,7 +83,7 @@ namespace Library.Logic
             return null;
         }
 
-        private RentalEvent InitializeEvent(DateTime rentalDate, User rentalUser, BooksState bookState, int bookId,
+        private RentalEvent InitializeEvent(DateTime rentalDate, User rentalUser, BookState bookState, int bookId,
             out Book book)
         {
             book = bookState.AllBooks.Books.FirstOrDefault(i => i.Id.Equals(bookId));
