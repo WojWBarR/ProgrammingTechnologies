@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 
 namespace Library.Logic
@@ -29,7 +30,7 @@ namespace Library.Logic
 
         public List<Book> GetAllBooks()
         {
-            var books = booksCatalogRepository.GetAllBooks();
+            var books = booksCatalogRepository.GetAllBooks().ToList();
 
             return books.Count == 0 ? null : books;
         }

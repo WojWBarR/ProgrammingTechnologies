@@ -22,11 +22,18 @@ namespace Library.Logic
             this.booksCatalogRepository = booksCatalogRepository;
         }
 
-        public List<BookEvent> GetAllBookEvents()
+        public IEnumerable<BookEvent> GetAllRentals()
         {
-            var rentals = bookEventRepository.GetAllBookEvents();
+            var rentalEvents = bookEventRepository.GetAllBookRentalEvents().ToList();
 
-            return rentals.Count == 0 ? null : rentals;
+            return rentalEvents.Count == 0 ? null : rentalEvents;
+        }
+
+        public IEnumerable<BookEvent> GetAllReturns()
+        {
+            var returnEvents = bookEventRepository.GetAllBookReturnEvents().ToList();
+
+            return returnEvents.Count == 0 ? null : returnEvents;
         }
 
         public RentalEvent RentBook(int userId, int bookId, DateTime rentalDate)
@@ -38,7 +45,7 @@ namespace Library.Logic
             var rentalUser = userRepository.GetUserById(userId);
             availableLibraryBook.AllBooks = new BookCatalog
             {
-                Books = booksStateRepository.GetAllAvailableBooks()
+                Books = booksStateRepository.GetAllAvailableBooks().ToList()
             };
 
             var rental = InitializeEvent(rentalDate, rentalUser, availableLibraryBook, bookId, out var book);

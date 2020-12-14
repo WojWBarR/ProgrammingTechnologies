@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 
 namespace Library.Logic
@@ -29,7 +30,7 @@ namespace Library.Logic
 
         public List<User> GetAllUsers()
         {
-            var users = userRepository.GetAllUsers();
+            var users = userRepository.GetAllUsers().ToList();
 
             return users.Count == 0 ? null : users;
         }

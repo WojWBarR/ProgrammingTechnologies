@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 
 namespace Library.Logic
@@ -14,20 +15,20 @@ namespace Library.Logic
 
         public List<Book> GetAllAvailableBooks()
         {
-            var availableBooks = booksStateRepository.GetAllAvailableBooks();
+            var availableBooks = booksStateRepository.GetAllAvailableBooks().ToList();
 
             return availableBooks.Count == 0 ? null : availableBooks;
         }
 
-        public int GetAmountOfAvailableBooks(int id)
+        public int GetAmountOfAvailableBooks(int dictionaryId)
         {
-            var amount = booksStateRepository.GetAmountOfAvailableBooksById(id);
+            var amount = booksStateRepository.GetAmountOfAvailableBooksById(dictionaryId);
             return amount;
         }
 
-        public void UpdateBooksAmount(int bookId, int actualBooksAmount)
+        public void UpdateBooksAmount(int dictionaryId, int actualBooksAmount)
         {
-            booksStateRepository.UpdateBooksAmount(bookId, actualBooksAmount);
+            booksStateRepository.UpdateBooksAmount(dictionaryId, actualBooksAmount);
         }
     }
 }
