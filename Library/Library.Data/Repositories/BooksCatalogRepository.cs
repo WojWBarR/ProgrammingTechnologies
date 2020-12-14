@@ -5,44 +5,51 @@ namespace Library.Data
 {
     public class BooksCatalogRepository : IBooksCatalogRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly LibraryDbContext _dbContext;
 
-        public BooksCatalogRepository(DataContext dataContext)
+        public BooksCatalogRepository(LibraryDbContext dbContext)
         {
-            _dataContext = dataContext;
+            _dbContext = dbContext;
         }
 
-        public List<Book> GetAllBooks()
+        public IEnumerable<Book> GetAllBooks()
         {
-            return _dataContext.BookCatalog.Books;
+            return _dbContext.Set<Book>();
         }
 
         public Book GetBookById(int id)
         {
-            return _dataContext.BookCatalog.Books.FirstOrDefault(i => i.Id.Equals(id));
+            return _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
         }
 
         public Book GetBookByType(BookEnum bookType)
         {
-            return _dataContext.BookCatalog.Books.FirstOrDefault(t => t.BookGenre.Equals(bookType));
+            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
         }
 
         public void DeleteBook(int id)
         {
-            var deletedBook = _dataContext.BookCatalog.Books.FirstOrDefault(i => i.Id.Equals(id));
+            var deletedBook = _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
 
-            if (deletedBook != null) _dataContext.BookCatalog.Books.Remove(deletedBook);
+            if (deletedBook != null)
+            {
+                _dbContext.Set<Book>().Remove(deletedBook);
+
+                _dbContext.SaveChanges();
+            }
         }
 
         public void EditBook(Book book)
         {
-            var editedBook = _dataContext.BookCatalog.Books.FirstOrDefault(b => b.Id.Equals(book.Id));
+            var editedBook = _dbContext.Set<Book>().FirstOrDefault(b => b.Id.Equals(book.Id));
 
             if (editedBook != null)
             {
                 editedBook.Title = book.Title;
                 editedBook.BookGenre = book.BookGenre;
                 editedBook.Author = book.Author;
+
+                _dbContext.SaveChanges();
             }
         }
 
@@ -56,7 +63,9 @@ namespace Library.Data
                 Author = book.Author
             };
 
-            _dataContext.BookCatalog.Books.Add(addedBook);
+            _dbContext.Set<Book>().Add(addedBook);
+
+            _dbContext.SaveChanges();
         }
     }
 }

@@ -1,19 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Library.Data
 {
     public class BookEventRepository : IBookEventRepository
     {
-        private readonly DataContext _dataContext;
+        private readonly LibraryDbContext _dbContext;
 
-        public BookEventRepository(DataContext dataContext)
+        public BookEventRepository(LibraryDbContext dbContext)
         {
-            _dataContext = dataContext;
-        }
-
-        public List<BookEvent> GetAllBookEvents()
-        {
-            return _dataContext.BookEvents;
+            _dbContext = dbContext;
         }
 
         public void AddRentalEvent(RentalEvent rentalEvent)
@@ -25,7 +21,9 @@ namespace Library.Data
                 RentalUser = rentalEvent.RentalUser
             };
 
-            _dataContext.BookEvents.Add(addedRentalEvent);
+            _dbContext.RentalEvents.Add(addedRentalEvent);
+
+            _dbContext.SaveChanges();
         }
 
         public void AddReturnEvent(ReturnEvent returnEvent)
@@ -36,7 +34,19 @@ namespace Library.Data
                 RentalUser = returnEvent.RentalUser
             };
 
-            _dataContext.BookEvents.Add(addedReturnEvent);
+            _dbContext.ReturnEvents.Add(addedReturnEvent);
+
+            _dbContext.SaveChanges();
+        }
+
+        public IEnumerable<BookEvent> GetAllBookReturnEvents()
+        {
+            return _dbContext.ReturnEvents;
+        }
+
+        public IEnumerable<BookEvent> GetAllBookRentalEvents()
+        {
+            return _dbContext.RentalEvents;
         }
     }
 }
