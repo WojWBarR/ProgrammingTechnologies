@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Library.Data
 {
@@ -7,7 +8,7 @@ namespace Library.Data
         void AddUser(User user);
         void DeleteUser(int id);
         void EditUser(User user);
-        List<User> GetAllUsers();
+        IEnumerable<User> GetAllUsers();
         User GetUserById(int id);
     }
 }

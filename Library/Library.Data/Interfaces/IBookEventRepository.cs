@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 namespace Library.Data
 {
@@ -6,6 +7,7 @@ namespace Library.Data
     {
         void AddRentalEvent(RentalEvent rentalEvent);
         void AddReturnEvent(ReturnEvent returnEvent);
-        List<BookEvent> GetAllBookEvents();
+        IEnumerable<BookEvent> GetAllBookReturnEvents();
+        IEnumerable<BookEvent> GetAllBookRentalEvents();
     }
 }
