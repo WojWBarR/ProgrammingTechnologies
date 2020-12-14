@@ -1,4 +1,5 @@
-﻿using Library.Data;
+﻿using System.Linq;
+using Library.Data;
 using Xunit;
 
 namespace Library.DataTests
@@ -9,7 +10,7 @@ namespace Library.DataTests
         {
             var dataGenerator = new DataGenerator();
             dataContext = dataGenerator.GenerateData();
-            booksStateRepository = new BooksStateRepository(dataContext);
+            // booksStateRepository = new BooksStateRepository(dataContext);
         }
 
         private readonly BooksStateRepository booksStateRepository;
@@ -56,7 +57,7 @@ namespace Library.DataTests
             //Arrange
 
             //Act
-            var resultedBooks = booksStateRepository.GetAllAvailableBooks();
+            var resultedBooks = booksStateRepository.GetAllAvailableBooks().ToList();
 
             //Assert
             Assert.True(resultedBooks.Count.Equals(6));

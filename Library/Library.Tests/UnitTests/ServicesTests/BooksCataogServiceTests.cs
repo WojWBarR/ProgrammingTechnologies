@@ -102,7 +102,7 @@ namespace Library.LogicTests
         public void ShouldGetAllBooks()
         {
             //Arrange
-            bookRepositoryMock.Setup(x => x.GetAllBooks()).Returns(_bookCatalog.Books);
+            //bookRepositoryMock.Setup(x => x.GetAllBooks()).Returns(_bookCatalog.Books);
 
             //Act
             var resultedBooks = bookService.GetAllBooks();

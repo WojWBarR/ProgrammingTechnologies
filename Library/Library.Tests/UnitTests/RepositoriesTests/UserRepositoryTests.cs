@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 using Xunit;
 
@@ -10,7 +11,7 @@ namespace Library.DataTests
         {
             var dataGenerator = new DataGenerator();
             dataContext = dataGenerator.GenerateData();
-            userRepository = new UserRepository(dataContext);
+            //userRepository = new UserRepository(dataContext);
         }
 
         private readonly UserRepository userRepository;
@@ -62,7 +63,7 @@ namespace Library.DataTests
 
             //Act
             userRepository.AddUser(newUser);
-            var returnedUsers = userRepository.GetAllUsers();
+            var returnedUsers = userRepository.GetAllUsers().ToList();
 
             //Assert
             Assert.True(returnedUsers.Count.Equals(7));
@@ -75,7 +76,7 @@ namespace Library.DataTests
 
             //Act
             userRepository.DeleteUser(1);
-            var returnedUsers = userRepository.GetAllUsers();
+            var returnedUsers = userRepository.GetAllUsers().ToList();
 
             //Assert
             Assert.True(returnedUsers.Count.Equals(5));
@@ -110,7 +111,7 @@ namespace Library.DataTests
             //Arrange
 
             //Act
-            var returnedUsers = userRepository.GetAllUsers();
+            var returnedUsers = userRepository.GetAllUsers().ToList();
 
             //Assert
             Assert.True(returnedUsers.Count.Equals(6));

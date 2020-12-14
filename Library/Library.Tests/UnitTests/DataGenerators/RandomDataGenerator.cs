@@ -47,7 +47,7 @@ namespace Library.DataTests
             var bookState = new BookState
             {
                 AllBooks = dataContext.BookCatalog,
-                AvailableBooksAmount = new Dictionary<Book, int>
+                /*AvailableBooksAmount = new Dictionary<Book, int>
                 {
                     {CreateRandomBook(), RandomNumber(1, 10)},
                     {CreateRandomBook(), RandomNumber(1, 10)},
@@ -55,7 +55,7 @@ namespace Library.DataTests
                     {CreateRandomBook(), RandomNumber(1, 10)},
                     {CreateRandomBook(), RandomNumber(1, 10)},
                     {CreateRandomBook(), RandomNumber(1, 10)}
-                }
+                }*/
             };
 
             return bookState;

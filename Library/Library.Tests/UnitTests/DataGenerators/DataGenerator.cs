@@ -41,7 +41,7 @@ namespace Library.DataTests
             var bookState = new BookState
             {
                 AllBooks = dataContext.BookCatalog,
-                AvailableBooksAmount = new Dictionary<Book, int>
+                /*AvailableBooksAmount = new Dictionary<Book, int>
                 {
                     {book1, 32},
                     {book2, 2},
@@ -49,7 +49,7 @@ namespace Library.DataTests
                     {book4, 6},
                     {book5, 2},
                     {book6, 40}
-                }
+                }*/
             };
 
             dataContext.BookState = bookState;
