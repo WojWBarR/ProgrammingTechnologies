@@ -44,8 +44,8 @@
             <ContentControl Grid.ColumnSpan="3" Grid.Column="0" Grid.Row="3" Content="{Binding SelectedViewModel}"/>
 
             <Button Grid.Row="2"  Height="30" Width ="100" Content="Refresh Data" Margin="4 10 0 0" HorizontalAlignment="Left" Grid.Column="0" Command="{Binding LoadDataCommand}"/>
-            <Button Grid.Row="2"  Height="30" Width ="100" Content="Add User" Margin="20 10 0 0" HorizontalAlignment="Left" Grid.Column="1" Command="{Binding UpdateViewCommand}" CommandParameter="Add"/>
-            <Button Grid.Row="2" Height="30" Width ="100" Content="Edit User" Margin="148 10 0 0"  HorizontalAlignment="Left" Grid.Column="1" Command="{Binding UpdateViewCommand}" CommandParameter="Edit" />
+            <Button Grid.Row="2"  Height="30" Width ="100" Content="Add User" Margin="20 10 0 0" HorizontalAlignment="Left" Grid.Column="1"/>
+            <Button Grid.Row="2" Height="30" Width ="100" Content="Edit User" Margin="148 10 0 0"  HorizontalAlignment="Left" Grid.Column="1"/>
             <Button Grid.Row="2" Height="30" Width ="100" Content="Delete User" Margin="20 10 0 0" HorizontalAlignment="Left" Grid.Column="2" Command="{Binding DeleteCommand}"/>
         </Grid>
     </StackPanel>
