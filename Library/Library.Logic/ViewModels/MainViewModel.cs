@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Library.Logic.ViewModels
 {
-    class MainViewModel
+    public class MainViewModel
     {
     }
 }
