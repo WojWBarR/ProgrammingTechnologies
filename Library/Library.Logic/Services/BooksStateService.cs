@@ -1,34 +1,52 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Library.Data;
+using Library.Data.Models;
 
 namespace Library.Logic
 {
     public class BooksStateService
     {
-        private readonly IBooksStateRepository booksStateRepository;
+        private readonly LibraryDbContext _dbContext;
 
-        public BooksStateService(IBooksStateRepository booksStateRepository)
+        public BooksStateService(LibraryDbContext dbContext)
         {
-            this.booksStateRepository = booksStateRepository;
+            _dbContext = dbContext;
         }
 
-        public List<Book> GetAllAvailableBooks()
+        public IEnumerable<Book> GetAllAvailableBooks()
         {
-            var availableBooks = booksStateRepository.GetAllAvailableBooks().ToList();
-
-            return availableBooks.Count == 0 ? null : availableBooks;
+            return _dbContext.Set<Book>();
         }
 
-        public int GetAmountOfAvailableBooks(int dictionaryId)
+        public int GetAmountOfAvailableBooksById(int dictionaryId)
         {
-            var amount = booksStateRepository.GetAmountOfAvailableBooksById(dictionaryId);
-            return amount;
+            var bookDictionary = _dbContext.Set<BookDictionary>().FirstOrDefault(i => i.DictionaryId.Equals(dictionaryId));
+
+            if (bookDictionary?.Book != null)
+            {
+                var amount = bookDictionary.BooksAmount;
+
+                return amount > 0 ? amount : default;
+            }
+
+            return default;
         }
 
-        public void UpdateBooksAmount(int dictionaryId, int actualBooksAmount)
+        public int UpdateBooksAmount(int dictionaryId, int actualBooksAmount)
         {
-            booksStateRepository.UpdateBooksAmount(dictionaryId, actualBooksAmount);
+            var bookDictionary = _dbContext.Set<BookDictionary>().FirstOrDefault(i => i.DictionaryId.Equals(dictionaryId));
+
+            if (bookDictionary?.Book != null)
+            {
+                bookDictionary.BooksAmount = actualBooksAmount;
+
+                _dbContext.SaveChanges();
+
+                return bookDictionary.BooksAmount;
+            }
+
+            return default;
         }
     }
 }

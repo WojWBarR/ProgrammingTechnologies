@@ -6,51 +6,67 @@ namespace Library.Logic
 {
     public class BooksCatalogService
     {
-        private readonly IBooksCatalogRepository booksCatalogRepository;
+        private readonly LibraryDbContext _dbContext;
 
-        public BooksCatalogService(IBooksCatalogRepository booksCatalogRepository)
+        public BooksCatalogService(LibraryDbContext dbContext)
         {
-            this.booksCatalogRepository = booksCatalogRepository;
+            _dbContext = dbContext;
         }
 
-        public void AddBook(Book book)
+        public IEnumerable<Book> GetAllBooks()
         {
-            booksCatalogRepository.AddBook(book);
+            return _dbContext.Set<Book>();
+        }
+
+        public Book GetBookById(int id)
+        {
+            return _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
+        }
+
+        public Book GetBookByType(BookEnum bookType)
+        {
+            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
         }
 
         public void DeleteBook(int id)
         {
-            booksCatalogRepository.DeleteBook(id);
+            var deletedBook = _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
+
+            if (deletedBook != null)
+            {
+                _dbContext.Set<Book>().Remove(deletedBook);
+
+                _dbContext.SaveChanges();
+            }
         }
 
         public void EditBook(Book book)
         {
-            booksCatalogRepository.EditBook(book);
+            var editedBook = _dbContext.Set<Book>().FirstOrDefault(b => b.Id.Equals(book.Id));
+
+            if (editedBook != null)
+            {
+                editedBook.Title = book.Title;
+                editedBook.BookGenre = book.BookGenre;
+                editedBook.Author = book.Author;
+
+                _dbContext.SaveChanges();
+            }
         }
 
-        public List<Book> GetAllBooks()
+        public void AddBook(Book book)
         {
-            var books = booksCatalogRepository.GetAllBooks().ToList();
+            var addedBook = new Book
+            {
+                Id = book.Id,
+                Title = book.Title,
+                BookGenre = book.BookGenre,
+                Author = book.Author
+            };
 
-            return books.Count == 0 ? null : books;
-        }
+            _dbContext.Set<Book>().Add(addedBook);
 
-        public Book GetBook(int id)
-        {
-            var bookById = booksCatalogRepository.GetBookById(id);
-
-            if (bookById.Equals(null)) return null;
-
-            return bookById;
-        }
-
-        public Book GetBook(BookEnum bookType)
-        {
-            var bookByType = booksCatalogRepository.GetBookByType(bookType);
-
-            if (bookByType.Equals(null)) return null;
-
-            return bookByType;
+            _dbContext.SaveChanges();
         }
     }
 }

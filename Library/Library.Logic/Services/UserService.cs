@@ -6,42 +6,61 @@ namespace Library.Logic
 {
     public class UserService
     {
-        private readonly IUserRepository userRepository;
+        private readonly LibraryDbContext _dbContext;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(LibraryDbContext dbContext)
         {
-            this.userRepository = userRepository;
+            _dbContext = dbContext;
         }
 
-        public void AddUser(User user)
+        public IEnumerable<User> GetAllUsers()
         {
-            userRepository.AddUser(user);
+            return _dbContext.Users;
+        }
+
+        public User GetUserById(int id)
+        {
+            return _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
         }
 
         public void DeleteUser(int id)
         {
-            userRepository.DeleteUser(id);
+            var deletedUser = _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
+
+            if (deletedUser != null)
+            {
+                _dbContext.Users.Remove(deletedUser);
+                _dbContext.SaveChanges();
+            }
         }
 
         public void EditUser(User user)
         {
-            userRepository.EditUser(user);
+            var editedUser = _dbContext.Users.FirstOrDefault(b => b.Id.Equals(user.Id));
+
+            if (editedUser != null)
+            {
+                editedUser.Name = user.Name;
+                editedUser.Surname = user.Surname;
+                editedUser.AmountOfBooksRented = user.AmountOfBooksRented;
+
+                _dbContext.SaveChanges();
+            }
         }
 
-        public List<User> GetAllUsers()
+        public void AddUser(User user)
         {
-            var users = userRepository.GetAllUsers().ToList();
+            var addedUser = new User
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                AmountOfBooksRented = user.AmountOfBooksRented
+            };
 
-            return users.Count == 0 ? null : users;
-        }
+            _dbContext.Users.Add(addedUser);
 
-        public User GetUser(int id)
-        {
-            var user = userRepository.GetUserById(id);
-
-            if (user.Equals(null)) return null;
-
-            return user;
+            _dbContext.SaveChanges();
         }
     }
 }
