@@ -12,6 +12,16 @@ namespace Library.Logic
             _dbContext = dbContext;
         }
 
+        public IEnumerable<BookEvent> GetAllBookRentalEvents()
+        {
+            return _dbContext.RentalEvents;
+        }
+
+        public IEnumerable<BookEvent> GetAllBookReturnEvents()
+        {
+            return _dbContext.ReturnEvents;
+        }
+
         public void AddRentalEvent(RentalEvent rentalEvent)
         {
             var addedRentalEvent = new RentalEvent
@@ -37,16 +47,6 @@ namespace Library.Logic
             _dbContext.ReturnEvents.Add(addedReturnEvent);
 
             _dbContext.SaveChanges();
-        }
-
-        public IEnumerable<BookEvent> GetAllBookRentalEvents()
-        {
-            return _dbContext.RentalEvents;
-        }
-
-        public IEnumerable<BookEvent> GetAllBookReturnEvents()
-        {
-            return _dbContext.ReturnEvents;
         }
     }
 }

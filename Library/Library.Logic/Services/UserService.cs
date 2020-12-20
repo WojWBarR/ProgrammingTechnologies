@@ -13,6 +13,16 @@ namespace Library.Logic
             _dbContext = dbContext;
         }
 
+        public IEnumerable<User> GetAllUsers()
+        {
+            return _dbContext.Users;
+        }
+
+        public User GetUserById(int id)
+        {
+            return _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
+        }
+
         public void AddUser(User user)
         {
             var addedUser = new User
@@ -51,16 +61,6 @@ namespace Library.Logic
 
                 _dbContext.SaveChanges();
             }
-        }
-
-        public IEnumerable<User> GetAllUsers()
-        {
-            return _dbContext.Users;
-        }
-
-        public User GetUserById(int id)
-        {
-            return _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
         }
     }
 }

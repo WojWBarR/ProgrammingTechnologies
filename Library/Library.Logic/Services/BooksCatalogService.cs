@@ -13,6 +13,21 @@ namespace Library.Logic
             _dbContext = dbContext;
         }
 
+        public IEnumerable<Book> GetAllBooks()
+        {
+            return _dbContext.Set<Book>();
+        }
+
+        public Book GetBookById(int id)
+        {
+            return _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
+        }
+
+        public Book GetBookByType(BookEnum bookType)
+        {
+            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
+        }
+
         public void AddBook(Book book)
         {
             var addedBook = new Book
@@ -52,21 +67,6 @@ namespace Library.Logic
 
                 _dbContext.SaveChanges();
             }
-        }
-
-        public IEnumerable<Book> GetAllBooks()
-        {
-            return _dbContext.Set<Book>();
-        }
-
-        public Book GetBookById(int id)
-        {
-            return _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
-        }
-
-        public Book GetBookByType(BookEnum bookType)
-        {
-            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
         }
     }
 }
