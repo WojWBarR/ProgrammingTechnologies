@@ -15,7 +15,7 @@ namespace Library.Logic
 
         public IEnumerable<Book> GetAllBooks()
         {
-            return _dbContext.Set<Book>();
+            return _dbContext.Set<Book>().OrderBy(x=>x.Author).ThenBy(x => x.Title);
         }
 
         public Book GetBookById(int id)
@@ -25,7 +25,7 @@ namespace Library.Logic
 
         public Book GetBookByType(BookEnum bookType)
         {
-            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
+            return _dbContext.Set<Book>().Where(b => b.BookGenre.Equals(bookType)).First();
         }
 
         public void AddBook(Book book)

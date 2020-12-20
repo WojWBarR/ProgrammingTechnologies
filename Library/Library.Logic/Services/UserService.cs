@@ -15,12 +15,12 @@ namespace Library.Logic
 
         public IEnumerable<User> GetAllUsers()
         {
-            return _dbContext.Users;
+            return _dbContext.Users.OrderBy(x=>x.Name).ThenBy(x=>x.AmountOfBooksRented);
         }
 
         public User GetUserById(int id)
         {
-            return _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
+            return _dbContext.Users.Where(i => i.Id.Equals(id)).FirstOrDefault();
         }
 
         public void AddUser(User user)

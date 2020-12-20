@@ -11,7 +11,6 @@ namespace Library.UI
         public MainWindow()
         {
             InitializeComponent();
-
             DataContext = new MainViewModel();
         }
     }

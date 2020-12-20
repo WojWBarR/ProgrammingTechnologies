@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 
 namespace Library.Logic
@@ -14,12 +15,12 @@ namespace Library.Logic
 
         public IEnumerable<BookEvent> GetAllBookRentalEvents()
         {
-            return _dbContext.RentalEvents;
+            return _dbContext.RentalEvents.OrderBy(x=>x.EventDate).ThenBy(x=>x.RentalUser);
         }
 
         public IEnumerable<BookEvent> GetAllBookReturnEvents()
         {
-            return _dbContext.ReturnEvents;
+            return _dbContext.ReturnEvents.OrderBy(x => x.EventDate).ThenBy(x => x.RentalUser);
         }
 
         public void AddRentalEvent(RentalEvent rentalEvent)

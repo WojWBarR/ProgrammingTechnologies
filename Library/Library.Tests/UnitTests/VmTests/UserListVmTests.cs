@@ -27,36 +27,6 @@ namespace Library.VmTests
         private bool canBeExecuted = true;
 
         [Fact]
-        public void AddCmdShouldBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
-            var addCommand = _userListViewModel.AddCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser.Name != null && _userListViewModel.SelectedUser.Surname != null)
-                canBeExecuted = true;
-
-            //Assert
-            Assert.True(canBeExecuted);
-        }
-
-        [Fact]
-        public void AddCmdShouldNotBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = _userListViewModel.Users[1];
-            var addCommand = _userListViewModel.AddCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser.Name == null && _userListViewModel.SelectedUser.Surname == null)
-                canBeExecuted = false;
-
-            //Assert
-            Assert.False(canBeExecuted);
-        }
-
-        [Fact]
         public void DeleteCmdShouldBeExecuted()
         {
             //Arrange
@@ -147,6 +117,36 @@ namespace Library.VmTests
             Assert.NotNull(addCommand);
             Assert.NotNull(editCommand);
             Assert.NotNull(deleteCommand);
+        }
+
+        [Fact]
+        public void AddCmdShouldBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
+            var addCommand = _userListViewModel.AddCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser.Name != null && _userListViewModel.SelectedUser.Surname != null)
+                canBeExecuted = true;
+
+            //Assert
+            Assert.True(canBeExecuted);
+        }
+
+        [Fact]
+        public void AddCmdShouldNotBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = _userListViewModel.Users[1];
+            var addCommand = _userListViewModel.AddCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser.Name == null && _userListViewModel.SelectedUser.Surname == null)
+                canBeExecuted = false;
+
+            //Assert
+            Assert.False(canBeExecuted);
         }
     }
 }

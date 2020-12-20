@@ -27,36 +27,6 @@ namespace Library.VmTests
         private bool canBeExecuted = true;
 
         [Fact]
-        public void AddCmdShouldBeExecuted()
-        {
-            //Arrange
-            _bookListViewModel.SelectedBook = _bookListViewModel.Books[0];
-            var addCommand = _bookListViewModel.AddCommand;
-
-            //Act
-            if (_bookListViewModel.SelectedBook.Author != null && _bookListViewModel.SelectedBook.Title != null)
-                canBeExecuted = true;
-
-            //Assert
-            Assert.True(canBeExecuted);
-        }
-
-        [Fact]
-        public void AddCmdShouldNotBeExecuted()
-        {
-            //Arrange
-            _bookListViewModel.SelectedBook = _bookListViewModel.Books[1];
-            var addCommand = _bookListViewModel.AddCommand;
-
-            //Act
-            if (_bookListViewModel.SelectedBook.Author == null && _bookListViewModel.SelectedBook.Title == null)
-                canBeExecuted = false;
-
-            //Assert
-            Assert.False(canBeExecuted);
-        }
-
-        [Fact]
         public void DeleteCmdShouldBeExecuted()
         {
             //Arrange
@@ -147,6 +117,36 @@ namespace Library.VmTests
             Assert.NotNull(addCommand);
             Assert.NotNull(editCommand);
             Assert.NotNull(deleteCommand);
+        }
+
+        [Fact]
+        public void AddCmdShouldBeExecuted()
+        {
+            //Arrange
+            _bookListViewModel.SelectedBook = _bookListViewModel.Books[0];
+            var addCommand = _bookListViewModel.AddCommand;
+
+            //Act
+            if (_bookListViewModel.SelectedBook.Author != null && _bookListViewModel.SelectedBook.Title != null)
+                canBeExecuted = true;
+
+            //Assert
+            Assert.True(canBeExecuted);
+        }
+
+        [Fact]
+        public void AddCmdShouldNotBeExecuted()
+        {
+            //Arrange
+            _bookListViewModel.SelectedBook = _bookListViewModel.Books[1];
+            var addCommand = _bookListViewModel.AddCommand;
+
+            //Act
+            if (_bookListViewModel.SelectedBook.Author == null && _bookListViewModel.SelectedBook.Title == null)
+                canBeExecuted = false;
+
+            //Assert
+            Assert.False(canBeExecuted);
         }
     }
 }

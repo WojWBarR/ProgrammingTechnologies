@@ -16,7 +16,7 @@ namespace Library.Logic
 
         public IEnumerable<Book> GetAllAvailableBooks()
         {
-            return _dbContext.Set<Book>();
+            return _dbContext.Set<Book>().OrderBy(x=>x.Name).ThenBy(x => x.Author);
         }
 
         public int GetAmountOfAvailableBooksById(int dictionaryId)
