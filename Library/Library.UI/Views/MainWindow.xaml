@@ -5,24 +5,27 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Library.UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="530" Width="600">
+        Title="MainWindow" Height="450" Width="450">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ContentControl Content="{Binding SelectedViewModel}"/>
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 10" Content="Welcome in Library System"/>
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 60" Content="Created by"/>
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 110" Content="Bartłomiej Runowski 224100"/>
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 160" Content="Wojciech Woźniak 224106"/>
+
+        <ContentControl Grid.Row="0" Content="{Binding SelectedViewModel}"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
 
-            <Button  Margin="10" FontSize="17" Width="120" Command="{Binding UpdateViewCommand}" CommandParameter="Users">
+            <Button Margin="5" FontSize="15" Width="110" Command="{Binding UpdateViewCommand}" CommandParameter="Users">
                 Manage Users
             </Button>
-            <Button Margin="10" FontSize="17" Width="140" Command="{Binding UpdateViewCommand}" CommandParameter="Events">
-                Manage Rentals
-            </Button>
-            <Button Margin="10" FontSize="17" Width="120" Command="{Binding UpdateViewCommand}" CommandParameter="Books">
+            <Button Margin="5" FontSize="15" Width="110" Command="{Binding UpdateViewCommand}" CommandParameter="Books">
                 Manage Books
             </Button>
         </StackPanel>

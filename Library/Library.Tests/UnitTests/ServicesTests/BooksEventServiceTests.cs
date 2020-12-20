@@ -11,8 +11,8 @@ namespace Library.LogicTests
 {
     public class BooksEventServiceTests
     {
-        private IQueryable<RentalEvent> _rentalEvents;
-        private IQueryable<ReturnEvent> _returnEvents;
+        private readonly IQueryable<RentalEvent> _rentalEvents;
+        private readonly IQueryable<ReturnEvent> _returnEvents;
         private readonly Mock<LibraryDbContext> _libraryDbContextMock;
         private readonly Mock<DbSet<RentalEvent>> _mockRentalSet;
         private readonly Mock<DbSet<ReturnEvent>> _mockReturnSet;

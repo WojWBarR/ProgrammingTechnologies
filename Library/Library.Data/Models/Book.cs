@@ -9,5 +9,6 @@ namespace Library.Data
         public string Author { get; set; }
         public BookEnum BookGenre { get; set; }
         public string Title { get; set; }
+        public string Name => Title + " " + Author;
     }
 }

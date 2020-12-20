@@ -10,7 +10,7 @@ namespace Library.LogicTests
 {
     public class BooksCatalogServiceTests
     {
-        private IQueryable<Book> _books;
+        private readonly IQueryable<Book> _books;
         private readonly Mock<DbSet<Book>> _mockSet;
         private readonly Mock<LibraryDbContext> _libraryDbContextMock;
         private readonly BooksCatalogService _booksCatalogService;

@@ -10,7 +10,7 @@ namespace Library.LogicTests
 {
     public class UserServiceTests
     {
-        private IQueryable<User> _users;
+        private readonly IQueryable<User> _users;
         private readonly Mock<LibraryDbContext> _libraryDbContextMock;
         private readonly Mock<DbSet<User>> _mockSet;
         private readonly UserService _userService;
