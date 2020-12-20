@@ -18,4 +18,9 @@
     <ProjectReference Include="..\Library.Logic\Library.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Commands\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
 </Project>
