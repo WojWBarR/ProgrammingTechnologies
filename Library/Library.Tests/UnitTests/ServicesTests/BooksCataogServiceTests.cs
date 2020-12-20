@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 using Library.Logic;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -8,107 +10,142 @@ namespace Library.LogicTests
 {
     public class BooksCatalogServiceTests
     {
+        private IQueryable<Book> _books;
+        private readonly Mock<DbSet<Book>> _mockSet;
+        private readonly Mock<LibraryDbContext> _libraryDbContextMock;
+        private readonly BooksCatalogService _booksCatalogService;
+
         public BooksCatalogServiceTests()
         {
-            bookRepositoryMock = new Mock<IBooksCatalogRepository>();
-            bookService = new BooksCatalogService(bookRepositoryMock.Object);
-            _bookCatalog.Books = new List<Book>
+            _books = new List<Book>
             {
-                new Book {Id = 1, Title = "aaaa", BookGenre = BookEnum.Adventure, Author = "Aaaa"},
-                new Book {Id = 2, Title = "bbbb", BookGenre = BookEnum.Roman, Author = "Bbbb"},
-                new Book {Id = 3, Title = "cccc", BookGenre = BookEnum.Document, Author = "Cccc"},
-                new Book {Id = 4, Title = "dddd", BookGenre = BookEnum.Adventure, Author = "Aaaa"},
-                new Book {Id = 5, Title = "eeee", BookGenre = BookEnum.Roman, Author = "Bbbb"},
-                new Book {Id = 6, Title = "ffff", BookGenre = BookEnum.Document, Author = "Cccc"}
-            };
+                new Book{ Id = 0, Title = "aaa", BookGenre = BookEnum.Adventure},
+                new Book{ Id = 1, Title = "bbb", BookGenre = BookEnum.Document},
+                new Book{ Id = 2, Title = "ccc", BookGenre = BookEnum.Roman},
+            }.AsQueryable();
+
+            _mockSet = new Mock<DbSet<Book>>();
+            _mockSet.As<IQueryable<Book>>().Setup(m => m.Provider).Returns(_books.Provider);
+            _mockSet.As<IQueryable<Book>>().Setup(m => m.Expression).Returns(_books.Expression);
+            _mockSet.As<IQueryable<Book>>().Setup(m => m.ElementType).Returns(_books.ElementType);
+            _mockSet.As<IQueryable<Book>>().Setup(m => m.GetEnumerator()).Returns(_books.GetEnumerator());
+
+            _libraryDbContextMock = new Mock<LibraryDbContext>();
+            _libraryDbContextMock.Setup(x => x.Set<Book>()).Returns(_mockSet.Object);
+
+            _booksCatalogService = new BooksCatalogService(_libraryDbContextMock.Object);
         }
 
-        private readonly Mock<IBooksCatalogRepository> bookRepositoryMock;
-        private readonly BooksCatalogService bookService;
-        private readonly Book book = new Book();
-        private readonly BookCatalog _bookCatalog = new BookCatalog();
-
-        [Theory]
-        [InlineData(1)]
-        [InlineData(3)]
-        [InlineData(default)]
-        public void ShouldGetBookById(int id)
+        [Fact]
+        public void ShouldReturnAllBooks()
         {
             //Arrange
-            bookRepositoryMock.Setup(x => x.GetBookById(It.IsAny<int>())).Returns(book);
 
             //Act
-            var returnedBook = bookService.GetBook(id);
+            var resultedBooks = _booksCatalogService.GetAllBooks();
 
             //Assert
-            Assert.Equal(book, returnedBook);
+            Assert.Equal(3, resultedBooks.Count());
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        [InlineData(2)]
+        public void ShouldReturnBookById(int id)
+        {
+            //Arrange
+
+            //Act
+            var returnedBook = _booksCatalogService.GetBookById(id);
+
+            //Assert
+            switch (id)
+            {
+                case 0:
+                    Assert.Equal("aaa", returnedBook.Title);
+                    break;
+                case 1:
+                    Assert.Equal("bbb", returnedBook.Title);
+                    break;
+                case 2:
+                    Assert.Equal("ccc", returnedBook.Title);
+                    break;
+            }
         }
 
         [Theory]
         [InlineData(BookEnum.Adventure)]
         [InlineData(BookEnum.Document)]
         [InlineData(BookEnum.Roman)]
-        [InlineData(default)]
         public void ShouldReturnBookByBookType(BookEnum bookType)
         {
             //Arrange
-            bookRepositoryMock.Setup(x => x.GetBookByType(It.IsAny<BookEnum>())).Returns(book);
 
             //Act
-            var returnedBook = bookService.GetBook(bookType);
+            var returnedBook = _booksCatalogService.GetBookByType(bookType);
 
             //Assert
-            Assert.Equal(book, returnedBook);
+            switch (bookType)
+            {
+                case BookEnum.Adventure:
+                    Assert.Equal(BookEnum.Adventure, returnedBook.BookGenre);
+                    break;
+                case BookEnum.Document:
+                    Assert.Equal(BookEnum.Document, returnedBook.BookGenre);
+                    break;
+                case BookEnum.Roman:
+                    Assert.Equal(BookEnum.Roman, returnedBook.BookGenre);
+                    break;
+            }
         }
 
         [Fact]
         public void ShouldAddBook()
         {
             //Arrange
-            bookRepositoryMock.Setup(x => x.AddBook(It.IsAny<Book>()));
+            var newBook = new Book
+            {
+                Id = 3,
+                Title = "ddd",
+                Author = "Ddd"
+            };
 
             //Act
-            bookService.AddBook(default);
+            _booksCatalogService.AddBook(newBook);
 
             //Assert
+            _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [Fact]
         public void ShouldDeleteBook()
         {
             //Arrange
-            bookRepositoryMock.Setup(x => x.DeleteBook(It.IsAny<int>()));
 
             //Act
-            bookService.DeleteBook(default);
+            _booksCatalogService.DeleteBook(1);
 
             //Assert
+            _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
 
         [Fact]
         public void ShouldEditBook()
         {
             //Arrange
-            bookRepositoryMock.Setup(x => x.EditBook(It.IsAny<Book>()));
-
-
-            //Act
-            bookService.EditBook(default);
-
-            //Assert
-        }
-
-        [Fact]
-        public void ShouldGetAllBooks()
-        {
-            //Arrange
-            //bookRepositoryMock.Setup(x => x.GetAllBooks()).Returns(_bookCatalog.Books);
+            var editedBook = new Book
+            {
+                Id = 1,
+                Title = "ddd",
+                Author = "Ddd"
+            };
 
             //Act
-            var resultedBooks = bookService.GetAllBooks();
+            _booksCatalogService.EditBook(editedBook);
 
             //Assert
-            Assert.Equal(_bookCatalog.Books, resultedBooks);
+            _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
     }
 }

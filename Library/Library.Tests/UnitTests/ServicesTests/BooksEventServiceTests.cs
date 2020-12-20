@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Library.Data;
 using Library.Logic;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -9,137 +11,97 @@ namespace Library.LogicTests
 {
     public class BooksEventServiceTests
     {
+        private IQueryable<RentalEvent> _rentalEvents;
+        private IQueryable<ReturnEvent> _returnEvents;
+        private readonly Mock<LibraryDbContext> _libraryDbContextMock;
+        private readonly Mock<DbSet<RentalEvent>> _mockRentalSet;
+        private readonly Mock<DbSet<ReturnEvent>> _mockReturnSet;
+        private readonly BookEventService _bookEventService;
+
         public BooksEventServiceTests()
         {
-            bookEventRepositoryMock = new Mock<IBookEventRepository>();
-            bookStateRepositoryMock = new Mock<IBooksStateRepository>();
-            userRepositoryMock = new Mock<IUserRepository>();
-            booksCatalogRepositoryMock = new Mock<IBooksCatalogRepository>();
-
-            bookEventService = new BookEventService(bookEventRepositoryMock.Object, bookStateRepositoryMock.Object,
-                userRepositoryMock.Object, booksCatalogRepositoryMock.Object);
-
-            bookEvents = new List<BookEvent>
+            _rentalEvents = new List<RentalEvent>
             {
-                new RentalEvent {EventDate = default, RentalUser = default, BookInLibrary = default},
-                new RentalEvent {EventDate = default, RentalUser = default, BookInLibrary = default},
-                new ReturnEvent {EventDate = default, RentalUser = default}
-            };
+                new RentalEvent { EventDate = default, RentalUser = default},
+                new RentalEvent { EventDate = default, RentalUser = default},
+                new RentalEvent { EventDate = default, RentalUser = default},
+            }.AsQueryable();
 
-            _bookState.AllBooks = new BookCatalog
+            _returnEvents = new List<ReturnEvent>
             {
-                Books = new List<Book>
-                {
-                    new Book {Id = 1, Title = "aaaa", BookGenre = BookEnum.Adventure, Author = "Aaaa"},
-                    new Book {Id = 2, Title = "bbbb", BookGenre = BookEnum.Roman, Author = "Bbbb"},
-                    new Book {Id = 3, Title = "cccc", BookGenre = BookEnum.Document, Author = "Cccc"},
-                    new Book {Id = 4, Title = "dddd", BookGenre = BookEnum.Adventure, Author = "Aaaa"},
-                    new Book {Id = 5, Title = "eeee", BookGenre = BookEnum.Roman, Author = "Bbbb"},
-                    new Book {Id = 6, Title = "ffff", BookGenre = BookEnum.Document, Author = "Cccc"}
-                }
-            };
+                new ReturnEvent { EventDate = default, RentalUser = default},
+                new ReturnEvent { EventDate = default, RentalUser = default},
+                new ReturnEvent { EventDate = default, RentalUser = default},
+            }.AsQueryable();
 
-            rentalUser = new User
-            {
-                Id = 1,
-                Name = "naaa",
-                Surname = "saaa",
-                AmountOfBooksRented = 0
-            };
+            _mockRentalSet = new Mock<DbSet<RentalEvent>>();
+            _mockRentalSet.As<IQueryable<RentalEvent>>().Setup(m => m.Provider).Returns(_rentalEvents.Provider);
+            _mockRentalSet.As<IQueryable<RentalEvent>>().Setup(m => m.Expression).Returns(_rentalEvents.Expression);
+            _mockRentalSet.As<IQueryable<RentalEvent>>().Setup(m => m.ElementType).Returns(_rentalEvents.ElementType);
+            _mockRentalSet.As<IQueryable<RentalEvent>>().Setup(m => m.GetEnumerator()).Returns(_rentalEvents.GetEnumerator());
 
-            returnedUser = new User
-            {
-                Id = 2,
-                Name = "naaa",
-                Surname = "saaa",
-                AmountOfBooksRented = 13
-            };
+            _mockReturnSet = new Mock<DbSet<ReturnEvent>>();
+            _mockReturnSet.As<IQueryable<ReturnEvent>>().Setup(m => m.Provider).Returns(_returnEvents.Provider);
+            _mockReturnSet.As<IQueryable<ReturnEvent>>().Setup(m => m.Expression).Returns(_returnEvents.Expression);
+            _mockReturnSet.As<IQueryable<ReturnEvent>>().Setup(m => m.ElementType).Returns(_returnEvents.ElementType);
+            _mockReturnSet.As<IQueryable<ReturnEvent>>().Setup(m => m.GetEnumerator()).Returns(_returnEvents.GetEnumerator());
 
-            availableAmountOfParticularBook = random.Next();
+            _libraryDbContextMock = new Mock<LibraryDbContext>();
+            _libraryDbContextMock.Setup(x => x.RentalEvents).Returns(_mockRentalSet.Object);
+            _libraryDbContextMock.Setup(x => x.ReturnEvents).Returns(_mockReturnSet.Object);
 
-            bookStateRepositoryMock.Setup(x => x.GetAmountOfAvailableBooksById(It.IsAny<int>()))
-                .Returns(availableAmountOfParticularBook);
-            // bookStateRepositoryMock.Setup(x => x.GetAllAvailableBooks()).Returns(_bookState.AllBooks.Books);
-        }
-
-        private readonly Mock<IBookEventRepository> bookEventRepositoryMock;
-        private readonly Mock<IBooksStateRepository> bookStateRepositoryMock;
-        private readonly Mock<IUserRepository> userRepositoryMock;
-        private readonly Mock<IBooksCatalogRepository> booksCatalogRepositoryMock;
-        private readonly BookEventService bookEventService;
-        private readonly List<BookEvent> bookEvents;
-        private readonly User rentalUser;
-        private readonly User returnedUser;
-        private readonly BookState _bookState = new BookState();
-        private readonly Random random = new Random();
-        private int availableAmountOfParticularBook;
-
-        [Fact]
-        public void ShouldCreateNewRental()
-        {
-            //Arrange
-            var rentDate = new DateTime(2020, 11, 13);
-            var expectedAmountOfAvailableBooks = availableAmountOfParticularBook - 1;
-            var expectedRentalEvent = new RentalEvent
-            {
-                RentalUser = rentalUser,
-                BookInLibrary = _bookState,
-                EventDate = rentDate
-            };
-
-            userRepositoryMock.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(rentalUser);
-            bookStateRepositoryMock.Setup(x => x.UpdateBooksAmount(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(--availableAmountOfParticularBook);
-
-            //Act
-            //var resultedRentalEvent =
-            //  bookEventService.RentBook(rentalUser.Id, _bookState.AllBooks.Books[0].Id, rentDate);
-
-            //Assert
-            Assert.Equal(1, rentalUser.AmountOfBooksRented);
-            Assert.Equal(expectedAmountOfAvailableBooks, availableAmountOfParticularBook);
-            // Assert.Equal(expectedRentalEvent.ToString(), resultedRentalEvent.ToString());
+            _bookEventService = new BookEventService(_libraryDbContextMock.Object);
         }
 
         [Fact]
-        public void ShouldGetAllBookEvents()
+        public void ShouldAddRentalEvent()
         {
             //Arrange
-            // bookEventRepositoryMock.Setup(x => x.GetAllBookEvents()).Returns(bookEvents);
 
             //Act
-            //var resultedBookEvents = bookEventService.GetAllBookEvents();
+            var resultedUsers = _bookEventService.GetAllBookRentalEvents();
 
             //Assert
-            // Assert.Equal(resultedBookEvents, bookEvents);
+            Assert.Equal(3, resultedUsers.Count());
+
         }
 
         [Fact]
-        public void ShouldSuccessfullyGiveBookBack()
+        public void ShouldAddReturnEvent()
         {
             //Arrange
-            var returnDate = new DateTime(2020, 11, 17);
-            var expectedAmountOfAvailableBooks = availableAmountOfParticularBook + 1;
-            var expectedReturnEvent = new ReturnEvent
-            {
-                RentalUser = returnedUser,
-                EventDate = returnDate
-            };
-
-            userRepositoryMock.Setup(x => x.GetUserById(It.IsAny<int>())).Returns(returnedUser);
-            bookStateRepositoryMock.Setup(x => x.UpdateBooksAmount(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(++availableAmountOfParticularBook);
-            // booksCatalogRepositoryMock.Setup(x => x.GetBookById(It.IsAny<int>()))
-            //   .Returns(_bookState.AllBooks.Books[0]);
 
             //Act
-            //  var resultedRentedEvent =
-            //    bookEventService.ReturnBook(returnedUser.Id, _bookState.AllBooks.Books[0].Id, returnDate);
+            var resultedUsers = _bookEventService.GetAllBookReturnEvents();
 
             //Assert
-            Assert.Equal(12, returnedUser.AmountOfBooksRented);
-            Assert.Equal(expectedAmountOfAvailableBooks, availableAmountOfParticularBook);
-            //Assert.Equal(expectedReturnEvent.ToString(), resultedRentedEvent.ToString());
+            Assert.Equal(3, resultedUsers.Count());
+        }
+
+        [Fact]
+        public void ShouldReturnAllRentalsEvents()
+        {
+            //Arrange
+            var newRental = new RentalEvent { EventDate = default, RentalUser = default };
+
+            //Act
+            _bookEventService.AddRentalEvent(newRental);
+
+            //Assert
+            _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldReturnAllEReturnEvents()
+        {
+            //Arrange
+            var newReturn = new ReturnEvent { EventDate = default, RentalUser = default };
+
+            //Act
+            _bookEventService.AddReturnEvent(newReturn);
+
+            //Assert
+            _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
         }
     }
 }
