@@ -10,18 +10,13 @@ namespace Library.LogicTests
 {
     public class UserServiceTests
     {
-        private readonly IQueryable<User> _users;
-        private readonly Mock<LibraryDbContext> _libraryDbContextMock;
-        private readonly Mock<DbSet<User>> _mockSet;
-        private readonly UserService _userService;
-
         public UserServiceTests()
         {
             _users = new List<User>
             {
-                new User{ Id = 0, Name = "aaa"},
-                new User{ Id = 1 ,Name = "bbb"},
-                new User{ Id = 2 ,Name = "ccc"},
+                new User {Id = 0, Name = "aaa"},
+                new User {Id = 1, Name = "bbb"},
+                new User {Id = 2, Name = "ccc"}
             }.AsQueryable();
 
             _mockSet = new Mock<DbSet<User>>();
@@ -36,17 +31,10 @@ namespace Library.LogicTests
             _userService = new UserService(_libraryDbContextMock.Object);
         }
 
-        [Fact]
-        public void ShouldReturnAllUsers()
-        {
-            //Arrange
-
-            //Act
-            var resultedUsers = _userService.GetAllUsers();
-
-            //Assert
-            Assert.Equal(3, resultedUsers.Count());
-        }
+        private readonly IQueryable<User> _users;
+        private readonly Mock<LibraryDbContext> _libraryDbContextMock;
+        private readonly Mock<DbSet<User>> _mockSet;
+        private readonly UserService _userService;
 
         [Theory]
         [InlineData(0)]
@@ -122,6 +110,18 @@ namespace Library.LogicTests
 
             //Assert
             _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldReturnAllUsers()
+        {
+            //Arrange
+
+            //Act
+            var resultedUsers = _userService.GetAllUsers();
+
+            //Assert
+            Assert.Equal(3, resultedUsers.Count());
         }
     }
 }

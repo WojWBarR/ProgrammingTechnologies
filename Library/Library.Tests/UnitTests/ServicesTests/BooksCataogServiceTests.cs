@@ -10,18 +10,13 @@ namespace Library.LogicTests
 {
     public class BooksCatalogServiceTests
     {
-        private readonly IQueryable<Book> _books;
-        private readonly Mock<DbSet<Book>> _mockSet;
-        private readonly Mock<LibraryDbContext> _libraryDbContextMock;
-        private readonly BooksCatalogService _booksCatalogService;
-
         public BooksCatalogServiceTests()
         {
             _books = new List<Book>
             {
-                new Book{ Id = 0, Title = "aaa", BookGenre = BookEnum.Adventure},
-                new Book{ Id = 1, Title = "bbb", BookGenre = BookEnum.Document},
-                new Book{ Id = 2, Title = "ccc", BookGenre = BookEnum.Roman},
+                new Book {Id = 0, Title = "aaa", BookGenre = BookEnum.Adventure},
+                new Book {Id = 1, Title = "bbb", BookGenre = BookEnum.Document},
+                new Book {Id = 2, Title = "ccc", BookGenre = BookEnum.Roman}
             }.AsQueryable();
 
             _mockSet = new Mock<DbSet<Book>>();
@@ -36,17 +31,10 @@ namespace Library.LogicTests
             _booksCatalogService = new BooksCatalogService(_libraryDbContextMock.Object);
         }
 
-        [Fact]
-        public void ShouldReturnAllBooks()
-        {
-            //Arrange
-
-            //Act
-            var resultedBooks = _booksCatalogService.GetAllBooks();
-
-            //Assert
-            Assert.Equal(3, resultedBooks.Count());
-        }
+        private readonly IQueryable<Book> _books;
+        private readonly Mock<DbSet<Book>> _mockSet;
+        private readonly Mock<LibraryDbContext> _libraryDbContextMock;
+        private readonly BooksCatalogService _booksCatalogService;
 
         [Theory]
         [InlineData(0)]
@@ -146,6 +134,18 @@ namespace Library.LogicTests
 
             //Assert
             _libraryDbContextMock.Verify(x => x.SaveChanges(), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldReturnAllBooks()
+        {
+            //Arrange
+
+            //Act
+            var resultedBooks = _booksCatalogService.GetAllBooks();
+
+            //Assert
+            Assert.Equal(3, resultedBooks.Count());
         }
     }
 }

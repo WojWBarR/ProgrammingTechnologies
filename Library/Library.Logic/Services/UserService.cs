@@ -13,14 +13,19 @@ namespace Library.Logic
             _dbContext = dbContext;
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public void AddUser(User user)
         {
-            return _dbContext.Users;
-        }
+            var addedUser = new User
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                AmountOfBooksRented = user.AmountOfBooksRented
+            };
 
-        public User GetUserById(int id)
-        {
-            return _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
+            _dbContext.Users.Add(addedUser);
+
+            _dbContext.SaveChanges();
         }
 
         public void DeleteUser(int id)
@@ -48,19 +53,14 @@ namespace Library.Logic
             }
         }
 
-        public void AddUser(User user)
+        public IEnumerable<User> GetAllUsers()
         {
-            var addedUser = new User
-            {
-                Id = user.Id,
-                Name = user.Name,
-                Surname = user.Surname,
-                AmountOfBooksRented = user.AmountOfBooksRented
-            };
+            return _dbContext.Users;
+        }
 
-            _dbContext.Users.Add(addedUser);
-
-            _dbContext.SaveChanges();
+        public User GetUserById(int id)
+        {
+            return _dbContext.Users.FirstOrDefault(i => i.Id.Equals(id));
         }
     }
 }

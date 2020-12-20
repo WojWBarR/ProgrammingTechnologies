@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 
 namespace Library.UI.Commands
 {
     public class RelayCommand : ICommand
     {
-        private readonly Action _targetExecuteMethod;
         private readonly Func<bool> _targetCanExecuteMethod;
+        private readonly Action _targetExecuteMethod;
 
         public RelayCommand(Action executeMethod)
         {
@@ -23,10 +21,7 @@ namespace Library.UI.Commands
 
         public bool CanExecute(object parameter)
         {
-            if (_targetCanExecuteMethod != null)
-            {
-                return _targetCanExecuteMethod();
-            }
+            if (_targetCanExecuteMethod != null) return _targetCanExecuteMethod();
 
             return _targetExecuteMethod != null;
         }

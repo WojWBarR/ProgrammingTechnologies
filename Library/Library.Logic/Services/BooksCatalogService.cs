@@ -13,19 +13,19 @@ namespace Library.Logic
             _dbContext = dbContext;
         }
 
-        public IEnumerable<Book> GetAllBooks()
+        public void AddBook(Book book)
         {
-            return _dbContext.Set<Book>();
-        }
+            var addedBook = new Book
+            {
+                Id = book.Id,
+                Title = book.Title,
+                BookGenre = book.BookGenre,
+                Author = book.Author
+            };
 
-        public Book GetBookById(int id)
-        {
-            return _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
-        }
+            _dbContext.Set<Book>().Add(addedBook);
 
-        public Book GetBookByType(BookEnum bookType)
-        {
-            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
+            _dbContext.SaveChanges();
         }
 
         public void DeleteBook(int id)
@@ -54,19 +54,19 @@ namespace Library.Logic
             }
         }
 
-        public void AddBook(Book book)
+        public IEnumerable<Book> GetAllBooks()
         {
-            var addedBook = new Book
-            {
-                Id = book.Id,
-                Title = book.Title,
-                BookGenre = book.BookGenre,
-                Author = book.Author
-            };
+            return _dbContext.Set<Book>();
+        }
 
-            _dbContext.Set<Book>().Add(addedBook);
+        public Book GetBookById(int id)
+        {
+            return _dbContext.Set<Book>().FirstOrDefault(i => i.Id.Equals(id));
+        }
 
-            _dbContext.SaveChanges();
+        public Book GetBookByType(BookEnum bookType)
+        {
+            return _dbContext.Set<Book>().FirstOrDefault(b => b.BookGenre.Equals(bookType));
         }
     }
 }

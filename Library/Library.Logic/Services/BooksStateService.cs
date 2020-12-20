@@ -21,7 +21,8 @@ namespace Library.Logic
 
         public int GetAmountOfAvailableBooksById(int dictionaryId)
         {
-            var bookDictionary = _dbContext.Set<BookDictionary>().FirstOrDefault(i => i.DictionaryId.Equals(dictionaryId));
+            var bookDictionary = _dbContext.Set<BookDictionary>()
+                .FirstOrDefault(i => i.DictionaryId.Equals(dictionaryId));
 
             if (bookDictionary?.Book != null)
             {
@@ -35,7 +36,8 @@ namespace Library.Logic
 
         public int UpdateBooksAmount(int dictionaryId, int actualBooksAmount)
         {
-            var bookDictionary = _dbContext.Set<BookDictionary>().FirstOrDefault(i => i.DictionaryId.Equals(dictionaryId));
+            var bookDictionary = _dbContext.Set<BookDictionary>()
+                .FirstOrDefault(i => i.DictionaryId.Equals(dictionaryId));
 
             if (bookDictionary?.Book != null)
             {

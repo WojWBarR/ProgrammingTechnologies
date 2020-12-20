@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Library.Data;
 
 namespace Library.Logic
@@ -41,14 +39,14 @@ namespace Library.Logic
             _dbContext.SaveChanges();
         }
 
-        public IEnumerable<BookEvent> GetAllBookReturnEvents()
-        {
-            return _dbContext.ReturnEvents;
-        }
-
         public IEnumerable<BookEvent> GetAllBookRentalEvents()
         {
             return _dbContext.RentalEvents;
+        }
+
+        public IEnumerable<BookEvent> GetAllBookReturnEvents()
+        {
+            return _dbContext.ReturnEvents;
         }
     }
 }

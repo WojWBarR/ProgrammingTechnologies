@@ -5,43 +5,61 @@ namespace Library.Data.Migrations
 {
     public partial class InitialMigration : Migration
     {
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropTable(
+                "RentalEvents");
+
+            migrationBuilder.DropTable(
+                "ReturnEvents");
+
+            migrationBuilder.DropTable(
+                "BookStates");
+
+            migrationBuilder.DropTable(
+                "Users");
+
+            migrationBuilder.DropTable(
+                "BookDictionary");
+
+            migrationBuilder.DropTable(
+                "Books");
+
+            migrationBuilder.DropTable(
+                "BookCatalogs");
+        }
+
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BookCatalogs",
-                columns: table => new
+                "BookCatalogs",
+                table => new
                 {
-                    CatalogId = table.Column<int>(nullable: false)
+                    CatalogId = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1")
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BookCatalogs", x => x.CatalogId);
-                });
+                constraints: table => { table.PrimaryKey("PK_BookCatalogs", x => x.CatalogId); });
 
             migrationBuilder.CreateTable(
-                name: "Users",
-                columns: table => new
+                "Users",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
                     Surname = table.Column<string>(nullable: true),
-                    AmountOfBooksRented = table.Column<int>(nullable: false)
+                    AmountOfBooksRented = table.Column<int>()
                 },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Users", x => x.Id);
-                });
+                constraints: table => { table.PrimaryKey("PK_Users", x => x.Id); });
 
             migrationBuilder.CreateTable(
-                name: "Books",
-                columns: table => new
+                "Books",
+                table => new
                 {
-                    Id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Author = table.Column<string>(nullable: true),
-                    BookGenre = table.Column<int>(nullable: false),
+                    BookGenre = table.Column<int>(),
                     Title = table.Column<string>(nullable: true),
                     BookCatalogCatalogId = table.Column<int>(nullable: true)
                 },
@@ -49,38 +67,38 @@ namespace Library.Data.Migrations
                 {
                     table.PrimaryKey("PK_Books", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Books_BookCatalogs_BookCatalogCatalogId",
-                        column: x => x.BookCatalogCatalogId,
-                        principalTable: "BookCatalogs",
-                        principalColumn: "CatalogId",
+                        "FK_Books_BookCatalogs_BookCatalogCatalogId",
+                        x => x.BookCatalogCatalogId,
+                        "BookCatalogs",
+                        "CatalogId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookDictionary",
-                columns: table => new
+                "BookDictionary",
+                table => new
                 {
-                    DictionaryId = table.Column<int>(nullable: false)
+                    DictionaryId = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
                     BookId = table.Column<int>(nullable: true),
-                    BooksAmount = table.Column<int>(nullable: false)
+                    BooksAmount = table.Column<int>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_BookDictionary", x => x.DictionaryId);
                     table.ForeignKey(
-                        name: "FK_BookDictionary_Books_BookId",
-                        column: x => x.BookId,
-                        principalTable: "Books",
-                        principalColumn: "Id",
+                        "FK_BookDictionary_Books_BookId",
+                        x => x.BookId,
+                        "Books",
+                        "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BookStates",
-                columns: table => new
+                "BookStates",
+                table => new
                 {
-                    StateId = table.Column<int>(nullable: false)
+                    StateId = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
                     AllBooksCatalogId = table.Column<int>(nullable: true),
                     AvailableBooksDictionaryId = table.Column<int>(nullable: true)
@@ -89,136 +107,112 @@ namespace Library.Data.Migrations
                 {
                     table.PrimaryKey("PK_BookStates", x => x.StateId);
                     table.ForeignKey(
-                        name: "FK_BookStates_BookCatalogs_AllBooksCatalogId",
-                        column: x => x.AllBooksCatalogId,
-                        principalTable: "BookCatalogs",
-                        principalColumn: "CatalogId",
+                        "FK_BookStates_BookCatalogs_AllBooksCatalogId",
+                        x => x.AllBooksCatalogId,
+                        "BookCatalogs",
+                        "CatalogId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_BookStates_BookDictionary_AvailableBooksDictionaryId",
-                        column: x => x.AvailableBooksDictionaryId,
-                        principalTable: "BookDictionary",
-                        principalColumn: "DictionaryId",
+                        "FK_BookStates_BookDictionary_AvailableBooksDictionaryId",
+                        x => x.AvailableBooksDictionaryId,
+                        "BookDictionary",
+                        "DictionaryId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "RentalEvents",
-                columns: table => new
+                "RentalEvents",
+                table => new
                 {
-                    EventId = table.Column<int>(nullable: false)
+                    EventId = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    BookId = table.Column<int>(nullable: false),
-                    EventDate = table.Column<DateTime>(nullable: false)
+                    UserId = table.Column<int>(),
+                    BookId = table.Column<int>(),
+                    EventDate = table.Column<DateTime>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_RentalEvents", x => x.EventId);
                     table.ForeignKey(
-                        name: "FK_RentalEvents_BookStates_BookId",
-                        column: x => x.BookId,
-                        principalTable: "BookStates",
-                        principalColumn: "StateId",
+                        "FK_RentalEvents_BookStates_BookId",
+                        x => x.BookId,
+                        "BookStates",
+                        "StateId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_RentalEvents_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_RentalEvents_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReturnEvents",
-                columns: table => new
+                "ReturnEvents",
+                table => new
                 {
-                    EventId = table.Column<int>(nullable: false)
+                    EventId = table.Column<int>()
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(nullable: false),
-                    BookId = table.Column<int>(nullable: false),
-                    EventDate = table.Column<DateTime>(nullable: false)
+                    UserId = table.Column<int>(),
+                    BookId = table.Column<int>(),
+                    EventDate = table.Column<DateTime>()
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ReturnEvents", x => x.EventId);
                     table.ForeignKey(
-                        name: "FK_ReturnEvents_BookStates_BookId",
-                        column: x => x.BookId,
-                        principalTable: "BookStates",
-                        principalColumn: "StateId",
+                        "FK_ReturnEvents_BookStates_BookId",
+                        x => x.BookId,
+                        "BookStates",
+                        "StateId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ReturnEvents_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
+                        "FK_ReturnEvents_Users_UserId",
+                        x => x.UserId,
+                        "Users",
+                        "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookDictionary_BookId",
-                table: "BookDictionary",
-                column: "BookId");
+                "IX_BookDictionary_BookId",
+                "BookDictionary",
+                "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Books_BookCatalogCatalogId",
-                table: "Books",
-                column: "BookCatalogCatalogId");
+                "IX_Books_BookCatalogCatalogId",
+                "Books",
+                "BookCatalogCatalogId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookStates_AllBooksCatalogId",
-                table: "BookStates",
-                column: "AllBooksCatalogId");
+                "IX_BookStates_AllBooksCatalogId",
+                "BookStates",
+                "AllBooksCatalogId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BookStates_AvailableBooksDictionaryId",
-                table: "BookStates",
-                column: "AvailableBooksDictionaryId");
+                "IX_BookStates_AvailableBooksDictionaryId",
+                "BookStates",
+                "AvailableBooksDictionaryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalEvents_BookId",
-                table: "RentalEvents",
-                column: "BookId");
+                "IX_RentalEvents_BookId",
+                "RentalEvents",
+                "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RentalEvents_UserId",
-                table: "RentalEvents",
-                column: "UserId");
+                "IX_RentalEvents_UserId",
+                "RentalEvents",
+                "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReturnEvents_BookId",
-                table: "ReturnEvents",
-                column: "BookId");
+                "IX_ReturnEvents_BookId",
+                "ReturnEvents",
+                "BookId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ReturnEvents_UserId",
-                table: "ReturnEvents",
-                column: "UserId");
-        }
-
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
-            migrationBuilder.DropTable(
-                name: "RentalEvents");
-
-            migrationBuilder.DropTable(
-                name: "ReturnEvents");
-
-            migrationBuilder.DropTable(
-                name: "BookStates");
-
-            migrationBuilder.DropTable(
-                name: "Users");
-
-            migrationBuilder.DropTable(
-                name: "BookDictionary");
-
-            migrationBuilder.DropTable(
-                name: "Books");
-
-            migrationBuilder.DropTable(
-                name: "BookCatalogs");
+                "IX_ReturnEvents_UserId",
+                "ReturnEvents",
+                "UserId");
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows.Input;
-using Library.Logic;
+﻿using System.Windows.Input;
 using Library.UI.Commands;
 
 namespace Library.UI.ViewModels
@@ -13,7 +9,7 @@ namespace Library.UI.ViewModels
 
         public BaseViewModel SelectedViewModel
         {
-            get { return _selectedViewModel; }
+            get => _selectedViewModel;
             set
             {
                 _selectedViewModel = value;

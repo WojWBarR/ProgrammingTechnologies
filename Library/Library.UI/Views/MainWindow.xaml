@@ -9,16 +9,16 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 10" Content="Welcome in Library System"/>
-        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 60" Content="Created by"/>
-        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 110" Content="Bartłomiej Runowski 224100"/>
-        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 160" Content="Wojciech Woźniak 224106"/>
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 10" Content="Welcome in Library System" />
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 60" Content="Created by" />
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 110" Content="Bartłomiej Runowski 224100" />
+        <Label FontSize="30" HorizontalAlignment="Center" Margin="0 160" Content="Wojciech Woźniak 224106" />
 
-        <ContentControl Grid.Row="0" Content="{Binding SelectedViewModel}"/>
+        <ContentControl Grid.Row="0" Content="{Binding SelectedViewModel}" />
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
 

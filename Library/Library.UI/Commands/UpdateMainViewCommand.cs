@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Library.UI.ViewModels;
 
@@ -25,18 +23,11 @@ namespace Library.UI.Commands
         public void Execute(object parameter)
         {
             if (parameter.ToString() == "Users")
-            {
                 _viewModel.SelectedViewModel = new UserListViewModel();
-            }
             else if (parameter.ToString() == "Books")
-            {
                 _viewModel.SelectedViewModel = new BookListViewModel();
-            }
             else
-            {
                 _viewModel.SelectedViewModel = new MainViewModel();
-            }
         }
     }
-
 }

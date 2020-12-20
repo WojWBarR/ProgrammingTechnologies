@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
+﻿using System.Collections.ObjectModel;
 using Library.Data;
 using Library.UI.ViewModels;
 using Xunit;
@@ -10,9 +7,6 @@ namespace Library.VmTests
 {
     public class UserListVmTests
     {
-        private readonly UserListViewModel _userListViewModel;
-        private bool canBeExecuted = true;
-
         public UserListVmTests()
         {
             _userListViewModel = new UserListViewModel
@@ -24,25 +18,102 @@ namespace Library.VmTests
                     new User {Id = 1, Name = "ccc", Surname = "ccc"},
                     new User {Id = 1, Name = "ddd", Surname = "ddd"},
                     new User {Id = 1, Name = "eee", Surname = "eee"},
-                    new User {Id = 1, Name = "fff", Surname = "fff"},
+                    new User {Id = 1, Name = "fff", Surname = "fff"}
                 }
             };
         }
 
+        private readonly UserListViewModel _userListViewModel;
+        private bool canBeExecuted = true;
+
         [Fact]
-        public void VmShouldInitializeCommandsAndUserGridVm()
+        public void AddCmdShouldBeExecuted()
         {
             //Arrange
+            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
             var addCommand = _userListViewModel.AddCommand;
-            var editCommand = _userListViewModel.EditCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser.Name != null && _userListViewModel.SelectedUser.Surname != null)
+                canBeExecuted = true;
+
+            //Assert
+            Assert.True(canBeExecuted);
+        }
+
+        [Fact]
+        public void AddCmdShouldNotBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = _userListViewModel.Users[1];
+            var addCommand = _userListViewModel.AddCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser.Name == null && _userListViewModel.SelectedUser.Surname == null)
+                canBeExecuted = false;
+
+            //Assert
+            Assert.False(canBeExecuted);
+        }
+
+        [Fact]
+        public void DeleteCmdShouldBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
             var deleteCommand = _userListViewModel.DeleteCommand;
 
             //Act
+            if (_userListViewModel.SelectedUser != null)
+                canBeExecuted = true;
 
             //Assert
-            Assert.NotNull(addCommand);
-            Assert.NotNull(editCommand);
-            Assert.NotNull(deleteCommand);
+            Assert.True(deleteCommand.CanExecute(canBeExecuted));
+        }
+
+        [Fact]
+        public void DeleteCmdShouldNotBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = null;
+            var deleteCommand = _userListViewModel.DeleteCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser == null)
+                canBeExecuted = false;
+
+            //Assert
+            Assert.False(deleteCommand.CanExecute(canBeExecuted));
+        }
+
+        [Fact]
+        public void EditCmdShouldBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
+            var editCommand = _userListViewModel.EditCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser != null)
+                canBeExecuted = true;
+
+            //Assert
+            Assert.True(editCommand.CanExecute(canBeExecuted));
+        }
+
+        [Fact]
+        public void EditCmdShouldNotBeExecuted()
+        {
+            //Arrange
+            _userListViewModel.SelectedUser = null;
+            var editCommand = _userListViewModel.EditCommand;
+
+            //Act
+            if (_userListViewModel.SelectedUser == null)
+                canBeExecuted = false;
+
+            //Assert
+            Assert.False(editCommand.CanExecute(canBeExecuted));
         }
 
         [Fact]
@@ -63,93 +134,19 @@ namespace Library.VmTests
         }
 
         [Fact]
-        public void DeleteCmdShouldNotBeExecuted()
+        public void VmShouldInitializeCommandsAndUserGridVm()
         {
             //Arrange
-            _userListViewModel.SelectedUser = null;
+            var addCommand = _userListViewModel.AddCommand;
+            var editCommand = _userListViewModel.EditCommand;
             var deleteCommand = _userListViewModel.DeleteCommand;
 
             //Act
-            if (_userListViewModel.SelectedUser == null)
-                canBeExecuted = false;
 
             //Assert
-            Assert.False(deleteCommand.CanExecute(canBeExecuted));
-        }
-
-        [Fact]
-        public void DeleteCmdShouldBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
-            var deleteCommand = _userListViewModel.DeleteCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser != null)
-                canBeExecuted = true;
-
-            //Assert
-            Assert.True(deleteCommand.CanExecute(canBeExecuted));
-        }
-
-        [Fact]
-        public void EditCmdShouldNotBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = null;
-            var editCommand = _userListViewModel.EditCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser == null)
-                canBeExecuted = false;
-
-            //Assert
-            Assert.False(editCommand.CanExecute(canBeExecuted));
-        }
-
-        [Fact]
-        public void EditCmdShouldBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
-            var editCommand = _userListViewModel.EditCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser != null)
-                canBeExecuted = true;
-
-            //Assert
-            Assert.True(editCommand.CanExecute(canBeExecuted));
-        }
-
-        [Fact]
-        public void AddCmdShouldNotBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = _userListViewModel.Users[1];
-            var addCommand = _userListViewModel.AddCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser.Name == null && _userListViewModel.SelectedUser.Surname == null)
-                canBeExecuted = false;
-
-            //Assert
-            Assert.False(canBeExecuted);
-        }
-
-        [Fact]
-        public void AddCmdShouldBeExecuted()
-        {
-            //Arrange
-            _userListViewModel.SelectedUser = _userListViewModel.Users[0];
-            var addCommand = _userListViewModel.AddCommand;
-
-            //Act
-            if (_userListViewModel.SelectedUser.Name != null && _userListViewModel.SelectedUser.Surname != null)
-                canBeExecuted = true;
-
-            //Assert
-            Assert.True(canBeExecuted);
+            Assert.NotNull(addCommand);
+            Assert.NotNull(editCommand);
+            Assert.NotNull(deleteCommand);
         }
     }
 }

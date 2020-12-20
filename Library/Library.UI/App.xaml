@@ -7,10 +7,10 @@
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
         <DataTemplate DataType="{x:Type viewModels:UserListViewModel}">
-            <views:UserListView/>
+            <views:UserListView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewModels:BookListViewModel}">
-            <views:BookListView/>
+            <views:BookListView />
         </DataTemplate>
     </Application.Resources>
 </Application>
